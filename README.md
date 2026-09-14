@@ -227,17 +227,17 @@ On top of the numbers, a **heatmap chart** sweeps a full dimension series at onc
 
 ## 6. IFC LENS, BIM IN THE BROWSER
 
-**IFC Lens** (Free) is a full in-browser IFC model viewer, and it is far more than a spinning 3D model. It opens Industry Foundation Classes building models, the open, vendor-neutral BIM exchange standard maintained by buildingSMART, and parses and renders them **entirely on your device** with WebAssembly and WebGL. Nothing is ever uploaded to a server, which keeps your design data private and removes the bandwidth limits that plague cloud viewers on large files.
+**IFC Lens** (Free) is a full in-browser IFC model viewer. It opens Industry Foundation Classes building models, the open, vendor-neutral BIM exchange standard maintained by buildingSMART, and parses and renders them entirely on your device with WebAssembly and WebGL. Nothing is uploaded to a server, which keeps your design data private and removes the bandwidth limits cloud viewers hit on large files.
 
 [<img src="assets/images/lens-what.webp" alt="IFC Lens with an IFC building model open in a browser tab, the Models panel listing the loaded file and its element count." style="width:100%;">](https://energyflowx.com/ifc-lens)
 
 *A 10.3 MB IFC file with 676 elements, parsed inside the browser tab. The Models panel keeps IFC models, imported CAD and mesh files, Modeler solids, vegetation and OpenStreetMap surroundings as separate layers, each with its own visibility.*
 
-The viewer auto-detects the schema of each file and supports **IFC2x3, IFC4, and IFC4x3**, so models move between authoring tools, analysis software, and facility-management systems without lock-in. Alongside IFC it reads **STEP and STP** CAD parts, which arrive as editable B-rep solids rather than frozen meshes, and the **GLB, glTF, OBJ and STL** mesh formats. Everything you open lands in one inventory, grouped by what it is rather than by when it arrived, and several IFC models can be overlaid as separate disciplines without ever merging the files.
+The viewer auto-detects the schema of each file and supports **IFC2x3, IFC4, and IFC4x3**, so models move between authoring tools, analysis software, and facility-management systems without lock-in. Alongside IFC it reads **STEP and STP** CAD parts, which arrive as editable B-rep solids rather than frozen meshes, and the **GLB, glTF, OBJ and STL** mesh formats. Everything you open lands in one inventory, grouped by what it is rather than by when it arrived, and several IFC models can be overlaid as separate disciplines without merging the files.
 
 ### Loading and managing models
 
-Drag one or more files onto the viewport, or load them from the toolbar. Multiple models live side by side, each listed with its element count and size, and each can be shown, hidden, or unloaded independently. No files of your own? A built-in set of discipline samples (architecture, structure, HVAC and more) loads in a click, so the tool is useful from the very first second.
+Drag one or more files onto the viewport, or load them from the toolbar. Multiple models live side by side, each listed with its element count and size, and each can be shown, hidden, or unloaded independently. Without files of your own, a built-in set of discipline samples (architecture, structure, HVAC and more) loads in a click.
 
 ### Structure tree, properties, and search
 
@@ -261,13 +261,13 @@ Three independent ways to cut the model:
 
 ### Colorize by data
 
-This is where the model starts talking. **Color by** IFC Class, Spatial storey, MEP System, IFC Property, Quantity, by model, or by selected GUID/ID. Rule-driven sources share one workflow: pick a value present in the model, or type a wildcard with `*` (for example `IFCWALL*` or `*SUPPLYAIR*`), first matching rule wins, anything unmatched falls into **Other**. Numeric properties and quantities colour by value ranges. In the legend you recolour swatches, set per-group opacity, or exclude a group so it keeps its native material. Each **Apply** snapshots the legend as a reusable **layer**, and layers coexist so you can stack, for instance, a class colouring under a system colouring. Paste the GUIDs from a clash report and spotlight the offenders against the rest of the model in seconds.
+**Color by** IFC Class, Spatial storey, MEP System, IFC Property, Quantity, by model, or by selected GUID/ID. Rule-driven sources share one workflow: pick a value present in the model, or type a wildcard with `*` (for example `IFCWALL*` or `*SUPPLYAIR*`), first matching rule wins, anything unmatched falls into **Other**. Numeric properties and quantities colour by value ranges. In the legend you recolour swatches, set per-group opacity, or exclude a group so it keeps its native material. Each **Apply** snapshots the legend as a reusable **layer**, and layers coexist so you can stack, for instance, a class colouring under a system colouring. Paste the GUIDs from a clash report and spotlight the offenders against the rest of the model.
 
-Colouring is also the fastest way to find what a model is *missing*. Colour by a property that half the elements do not carry and the gap appears as a block of **Other**, which is a far more honest answer than a schedule full of empty cells.
+Colouring also shows what a model is missing. Colour by a property that half the elements do not carry and the gap appears as a block of **Other**, which is easier to read than a schedule full of empty cells.
 
 ### MEP systems awareness
 
-IFC Lens reads first-class IFC system data (`IfcSystem`, `IfcDistributionSystem`, and the assignment links), so supply air, exhaust, chilled water, and electrical can each be coloured and isolated as the distinct systems they are. The Knowledge pages even include the Revit export checklist for the single most common reason MEP colouring shows nothing.
+IFC Lens reads IFC system data (`IfcSystem`, `IfcDistributionSystem`, and the assignment links), so supply air, exhaust, chilled water, and electrical can each be coloured and isolated as separate systems. The Knowledge pages include a Revit export checklist for the most common reason MEP colouring shows nothing.
 
 ### Site, terrain and surroundings
 
@@ -281,7 +281,7 @@ The same tool imports the **surroundings**: neighbouring buildings and street tr
 
 ### Measurement and notes
 
-Five measurement modes run on the same client-side geometry, with smart snapping (green to a vertex, blue to an edge, orange to a face): **Distance** (with the angle to a snapped edge, flagging ⟂ 90° when square), **Area** (exact for any planar outline, concave shapes included), **Angle**, **Volume** (read from the IFC quantity, with a bounding-box fallback), and **Probe** for exact X/Y/Z coordinates relative to the elevation datum.
+Five measurement modes run on the same client-side geometry, with snapping (green to a vertex, blue to an edge, orange to a face): **Distance** (with the angle to a snapped edge, flagging ⟂ 90° when square), **Area** (exact for any planar outline, concave shapes included), **Angle**, **Volume** (read from the IFC quantity, with a bounding-box fallback), and **Probe** for exact X/Y/Z coordinates relative to the elevation datum.
 
 [<img src="assets/images/lens-measure.webp" alt="Several measurements taken on a model at once: a distance, a polygon area, an angle, a bounding volume and a probed point coordinate." style="width:100%;">](https://energyflowx.com/ifc-lens/knowledge/measuring)
 
@@ -289,19 +289,19 @@ Five measurement modes run on the same client-side geometry, with smart snapping
 
 ### IDS quality checking, with a builder
 
-**IDS** (Information Delivery Specification) is the buildingSMART standard for machine-readable model requirements, for example "every wall must carry a fire rating". Load an `.ids` file and every rule reports its applicable, pass, and fail counts. Expand a failed rule to see each failing element with the exact reason, click to frame it, highlight all failures in red, and download a Markdown or HTML report with model metadata and a timestamp. The bundled **IDS Builder** goes the other way: author specifications with autocomplete from the model's real classes and Psets, test them live against the loaded model, and export a valid `.ids` file.
+**IDS** (Information Delivery Specification) is the buildingSMART standard for machine-readable model requirements, for example "every wall must carry a fire rating". Load an `.ids` file and every rule reports its applicable, pass, and fail counts. Expand a failed rule to see each failing element with the reason it failed, click to frame it, highlight all failures in red, and download a Markdown or HTML report with model metadata and a timestamp. The bundled **IDS Builder** goes the other way: author specifications with autocomplete from the model's real classes and Psets, test them live against the loaded model, and export a valid `.ids` file.
 
 [<img src="assets/images/lens-ids-bcf.webp" alt="The IDS builder editing a specification: an entity applicability facet on IFCWALL, and a required Name attribute matching a regular expression." style="width:100%;">](https://energyflowx.com/ifc-lens/knowledge/ids-and-bcf)
 
-*Authoring a buildingSMART IDS specification against the open model. Applicability and requirement facets autocomplete from what the model actually contains, and the specification can be tested against it before the `.ids` file is exported.*
+*Authoring a buildingSMART IDS specification against the open model. Applicability and requirement facets autocomplete from what the model contains, and the specification can be tested against it before the `.ids` file is exported.*
 
 ### BCF issue coordination
 
-**BCF** (BIM Collaboration Format) is the buildingSMART standard for exchanging issues without sending the model. Author topics with a saved viewpoint, the involved elements, a snapshot, type, status, and priority, then export a `.bcfzip` that opens in Revit, Navisworks, Solibri, or BIMcollab. Open issues someone sent you, restore their exact viewpoint and selection, reply or change status, and export the reviewed file back. All of it in the browser.
+**BCF** (BIM Collaboration Format) is the buildingSMART standard for exchanging issues without sending the model. Author topics with a saved viewpoint, the involved elements, a snapshot, type, status, and priority, then export a `.bcfzip` that opens in Revit, Navisworks, Solibri, or BIMcollab. Open issues someone sent you, restore their exact viewpoint and selection, reply or change status, and export the reviewed file back, all in the browser.
 
 ### Projects, notes, and getting the work back out
 
-A session is not something you should have to rebuild every morning. Models, notes, measurements and view state save into a single **project file**, and a *Save with models embedded* option carries the model bytes along, so the project opens on another machine with nothing else to send. **Notes** are pinned in the scene where the finding is, so they keep their place as the camera moves, and they export as BCF 2.1, which is how a note made here becomes an issue in somebody else's tool.
+Models, notes, measurements and view state save into a single **project file**, and a *Save with models embedded* option carries the model bytes along, so the project opens on another machine with nothing else to send. **Notes** are pinned in the scene where the finding is, so they keep their place as the camera moves, and they export as BCF 2.1, which is how a note made here becomes an issue in somebody else's tool.
 
 [<img src="assets/images/lens-work.webp" alt="A finding pinned to the model as an in-scene note, beside the colourise legend and the BCF issue panel it can be exported to." style="width:100%;">](https://energyflowx.com/ifc-lens/knowledge/projects-and-notes)
 
@@ -311,11 +311,11 @@ On the way out there is a quantity takeoff to CSV scoped to the selection or the
 
 ### Shortcuts, and using the right GPU
 
-Every command has a keyboard shortcut, the full list is documented, and the bindings can be remapped with conflict detection. There is also a page for a problem nobody warns you about: a laptop with two graphics adapters will happily run a WebGL viewer on the integrated one. The browser and operating-system settings that move it to the dedicated GPU are written down, because that single switch is usually worth more than any amount of tuning.
+Every command has a keyboard shortcut, the full list is documented, and the bindings can be remapped with conflict detection. There is also a page for a common laptop problem. A laptop with two graphics adapters often runs a WebGL viewer on the integrated one. The browser and operating-system settings that move it to the dedicated GPU are written down, because that one switch is usually the biggest performance win.
 
-### The manual has thirteen addresses
+### The manual, thirteen topic pages
 
-The IFC Lens and Elements manual is not a dialog buried inside the app. It is a published documentation cluster of **thirteen topic pages** under two hubs, [`/ifc-lens/knowledge`](https://energyflowx.com/ifc-lens/knowledge) and [`/elements/knowledge`](https://energyflowx.com/elements/knowledge), covering formats, properties and takeoff, measuring and sectioning, IDS and BCF, site and context, projects and notes, shortcuts and performance, and on the Elements side solar, weather, wind, PV yield, trees and the modeller. Every one of them is a real URL you can send to a colleague.
+The IFC Lens and Elements manual is published as a documentation cluster of thirteen topic pages under two hubs, [`/ifc-lens/knowledge`](https://energyflowx.com/ifc-lens/knowledge) and [`/elements/knowledge`](https://energyflowx.com/elements/knowledge), covering formats, properties and takeoff, measuring and sectioning, IDS and BCF, site and context, projects and notes, shortcuts and performance, and on the Elements side solar, weather, wind, PV yield, trees and the modeller. Each has its own URL you can send to a colleague.
 
 IFC Lens is built on the open-source [That Open Engine](https://github.com/ThatOpen/) BIM toolkit, the WebAssembly [web-ifc](https://github.com/ThatOpen/engine_web-ifc) parser, and Three.js, all gratefully acknowledged in the references below. The bundled demonstration model is the buildingSMART PCERT Sample Scene.
 
@@ -323,7 +323,7 @@ IFC Lens is built on the open-source [That Open Engine](https://github.com/ThatO
 
 ## 7. ELEMENTS, THE 3D DESIGN WORKSPACE
 
-**Elements** `NEW` is the analysis and authoring half of the BIM stack, sharing the same scene, the same models and the same on-device privacy as IFC Lens. Where the viewer *reads* a building, Elements puts it somewhere real, on a date, under a sun and in a wind, and lets you author the geometry that is not in the file yet. Entry is free and the studies run on your machine. The measured-weather download and the photovoltaic yield model are the two members-only pieces, gated inside their panels and enforced server-side.
+**Elements** `NEW` is the analysis and authoring half of the BIM stack, sharing the same scene, the same models and the same on-device privacy as IFC Lens. Elements puts the building somewhere real, on a date, under a sun and in a wind, and lets you author the geometry that is not in the file yet. Entry is free, and the sun, shadow, wind and tree studies run on your machine. Measured weather (the typical-year download and the EPW parse) and the photovoltaic yield model are the members-only pieces. They run on the server, gated inside their panels.
 
 [<img src="assets/images/el-what.webp" alt="An IFC building shaded by a sun-hours heatmap, with the sun path arc overhead and probe readings on several facades." style="width:100%;">](https://energyflowx.com/elements)
 
@@ -331,25 +331,25 @@ IFC Lens is built on the open-source [That Open Engine](https://github.com/ThatO
 
 ### Weather, a real year instead of an assumption
 
-Clear-sky physics assumes a cloudless sky on every day of the year, so it gives the *potential* of a site: an upper bound, not what the site will deliver. To move from potential to an expectation for a real place, Elements downloads a measured **typical meteorological year** for the site coordinates, or parses an **EPW** file you already have. Photovoltaic yield never falls back to clear-sky silently: it waits until you have either loaded measured weather or chosen clear-sky on purpose, and every clear-sky figure it reports is labelled as overestimated. The Knowledge page is explicit about what each dataset does and does not tell you, because a TMY is a synthesised representative year rather than a forecast, and treating it as one is how a yield study quietly goes wrong.
+Clear-sky physics assumes a cloudless sky on every day of the year, so it gives the potential of a site, an upper bound rather than what the site will deliver. To move from potential to an expectation for a real place, Elements downloads a measured **typical meteorological year** for the site coordinates, or parses an **EPW** file you already have. Photovoltaic yield never falls back to clear-sky silently. It waits until you have either loaded measured weather or chosen clear-sky on purpose, and every clear-sky figure it reports is labelled as overestimated. The Knowledge page is explicit about what each dataset does and does not tell you, because a TMY is a synthesised representative year rather than a forecast, and treating it as one is how a yield study quietly goes wrong.
 
 ### Sun path, shadows and sun hours
 
-The **Solar** tool casts a real sun over the model for the site and a chosen date. A draggable time-of-day scrubber and a play button sweep the day while the sun arc, a seasonal band, a horizon compass, and live hard shadows update as the sun moves. Glazing lets the sun through, exactly as a real window does.
+The **Solar** tool casts a real sun over the model for the site and a chosen date. A draggable time-of-day scrubber and a play button sweep the day while the sun arc, a seasonal band, a horizon compass, and live hard shadows update as the sun moves. Glazing lets the sun through.
 
-On top of the live shadow it computes **direct sun hours** over the whole day, painted as a heatmap on the ground and on building surfaces, with three readings: plain sun hours, an incidence-weighted exposure score for PV siting, and shade hours. A scoring mode bins the result into suitability tiers, and a compliance mode colours pass or fail against a minimum-hours threshold for right-to-light and overshadowing checks, with named building-code presets. You can read the exact value at any point by clicking, or paste a whole list of coordinates and have every point read and pinned at once.
+On top of the live shadow it computes **direct sun hours** over the whole day, painted as a heatmap on the ground and on building surfaces, with four readings: plain sun hours, an incidence-weighted exposure score for PV siting, shade hours, and an opt-in clear-sky irradiation in kWh/m². A scoring mode bins the result into suitability tiers, and a compliance mode colours pass or fail against a minimum-hours threshold for right-to-light and overshadowing checks, with named building-code presets. Click a point to read its value, or paste a whole list of coordinates and have every point read and pinned at once.
 
-The sun position uses the NOAA solar algorithm and the occlusion is ray traced. Both are recognised methods, and the output is validated openly.
+The sun position uses the NOAA solar algorithm, and the live occlusion is a GPU shadow map checked against a ray-traced closed-form oracle. The validation is published.
 
 [<img src="assets/images/el-solar.webp" alt="A district-scale sun-hours study, the heatmap covering the terrain, the model and the surrounding buildings alike." style="width:100%;">](https://energyflowx.com/elements/knowledge/solar)
 
-*The same study at district scale, with terrain, building and surroundings all carrying the heatmap. Neighbouring blocks shade each other, which is the whole reason the context is loaded in the first place.*
+*The same study at district scale, with terrain, building and surroundings all carrying the heatmap. Neighbouring blocks shade each other, which is why the context is loaded.*
 
 ### Photovoltaic yield, through to LCOE
 
-Lay photovoltaic arrays on a roof, on a facade or on the ground, and Elements takes them the whole way from irradiance to a bankable number. There is no default weather. Once the site location is set, the panel asks for a **weather basis** before anything else: load measured weather for a real-site yield, or choose clear-sky deliberately. Clear-sky stays available for comparing layouts, but its yield, its economics and its CSV and PDF reports all say plainly that the figures are overestimated. The chosen irradiance source feeds a **plane-of-array transposition** (isotropic Liu and Jordan, or the Perez anisotropic model with its circumsolar and horizon terms), passes through a cover-glass **incidence-angle modifier**, and meets the **shading** cast by the geometry that is actually in the scene, ray-traced rather than allowed for. Shading is charged electrically, not by area: a module's cells are wired in series, so a shadow touching one cell costs the whole bypass-diode group that cell sits in, and loss against shaded area is a step rather than a line. That is also why mounting orientation changes the answer, and by more than most people expect. A low shadow along the bottom edge of a **portrait** module clips all three of its substrings at once, where the same shadow on the same module mounted **landscape** reaches one and leaves two thirds of it working. Cell temperature, inverter clipping and the system loss budget turn irradiation into AC energy, and degradation, a P50/P90 band and a discounted cash flow turn AC energy into money.
+Lay photovoltaic arrays on a roof, on a facade or on the ground, and Elements takes them from irradiance to a bankable number. There is no default weather. Once the site location is set, the panel asks for a **weather basis** before anything else: load measured weather for a real-site yield, or choose clear-sky deliberately. Clear-sky stays available for comparing layouts, but its yield, its economics and its CSV and PDF reports all state that the figures are overestimated. The chosen irradiance source feeds a **plane-of-array transposition** (isotropic Liu and Jordan, or the Perez anisotropic model with its circumsolar and horizon terms), passes through a cover-glass **incidence-angle modifier**, and meets the **shading** cast by the geometry in the scene, ray-traced rather than allowed for. Shading is charged electrically, not by area: a module's cells are wired in series, so a shadow touching one cell costs the whole bypass-diode group that cell sits in, and loss against shaded area is a step rather than a line. That is also why mounting orientation changes the answer. A low shadow along the bottom edge of a **portrait** module clips all three of its substrings at once, where the same shadow on the same module mounted **landscape** reaches one and leaves two thirds of it working. Cell temperature, inverter clipping and the system loss budget turn irradiation into AC energy, and degradation, a P50/P90 band and a discounted cash flow turn AC energy into money.
 
-A **self-shading tilt and azimuth optimiser** searches the orientation for you, respecting row-to-row shading rather than pretending it away. Fixed and single-axis tracking mountings are both supported, backtracking included. That row-to-row shading is checked against a closed-form solution for the one arrangement that has one, and the case is published with its scene, its scripts and every measurement behind it in [validation-evidence/ifc_lens/solar_module/row_shading](validation-evidence/ifc_lens/solar_module/row_shading).
+A **self-shading tilt and azimuth optimiser** searches the orientation for you, accounting for row-to-row shading rather than ignoring it. Fixed and single-axis tracking mountings are both supported, backtracking included. That row-to-row shading is checked against a closed-form solution for the one arrangement that has one, and the case is published with its scene, its scripts and every measurement behind it in [validation-evidence/ifc_lens/solar_module/row_shading](validation-evidence/ifc_lens/solar_module/row_shading).
 
 [<img src="assets/images/el-pv.webp" alt="Three photovoltaic arrays laid out on a roof and on the ground, with the yield and financial results for the selected array." style="width:100%;">](https://energyflowx.com/elements/knowledge/pv)
 
@@ -357,9 +357,9 @@ A **self-shading tilt and azimuth optimiser** searches the orientation for you, 
 
 ### Wind, screening-level
 
-The **Wind** tool solves a **D3Q19 lattice-Boltzmann** flow field with large-eddy turbulence around the model, live on the GPU. Drive it with a points, logarithmic or Eurocode terrain-category inlet profile, or with your own measured data. It paints velocity and pressure on resolve planes and reads values at probe points, for an early read on shelter, funnelling, and exposure between buildings.
+The **Wind** tool solves a **D3Q19 lattice-Boltzmann** flow field with large-eddy turbulence around the model, live on the GPU. Drive it with a logarithmic or Eurocode terrain-category inlet profile, or with a points table of your own heights and velocities. It paints velocity and pressure on resolve planes and reads values at probe points, for an early read on shelter, funnelling, and exposure between buildings.
 
-It is honest about its scope. The solution runs on a thin slab at a capped Reynolds number, and the Knowledge page names the canonical benchmarks the solver is checked against and states plainly where the line sits between a validated solver and a design-grade wind study. This is a screening aid for orientation and massing, not a certification.
+The solution runs on a thin slab at a capped Reynolds number, and the Knowledge page names the canonical benchmarks the solver is checked against and states where the line sits between a validated solver and a design-grade wind study. This is a screening aid for orientation and massing, not a certification.
 
 [<img src="assets/images/el-wind.webp" alt="A vertical slice through a wind field around a site, coloured by speed, with the logarithmic inlet profile plotted beside it." style="width:100%;">](https://energyflowx.com/elements/knowledge/wind)
 
@@ -367,7 +367,7 @@ It is honest about its scope. The solution runs on a thin slab at a capped Reyno
 
 ### Trees that shade like trees
 
-Vegetation is not scenery in a solar study. Trees are modelled as **partial occluders**, with Beer-Lambert attenuation through an ellipsoidal crown and a leaf-density knob that sets its transmittance, so a canopy dims the sun rather than switching it off. A seasonal blend thins a deciduous crown through the year. Place trees singly, fill them into a shape, run them along a boundary or drop them onto a face, and the shade they cast reaches both the sun-hours bake and the PV ray-trace.
+Trees are modelled as **partial occluders**, with Beer-Lambert attenuation through an ellipsoidal crown and a leaf-density knob that sets its transmittance, so a canopy dims the sun rather than switching it off. A seasonal blend thins a deciduous crown through the year. Place trees singly, fill them into a shape, run them along a boundary or drop them onto a face, and the shade they cast reaches both the sun-hours bake and the PV ray-trace.
 
 [<img src="assets/images/el-veg.webp" alt="Trees placed around a building by area fill and along a boundary line, with the vegetation panel showing species and crown dimensions." style="width:100%;">](https://energyflowx.com/elements/knowledge/vegetation)
 
@@ -383,9 +383,9 @@ Some of what a study needs is never in the IFC file: a proposed extension, a nei
 
 ### Validation you can check yourself
 
-A dedicated **Validation** tab proves the analysis tools rather than asking you to trust them. The Solar module is validated three ways, each recomputed live in your browser on every visit: the sun position against NREL SPA published values and an independent ephemeris, the occlusion against a closed-form analytic shadow, and the end-to-end sun hours cross-checked against Ladybug Tools, a recognised open-source solar library, on a controlled scene. The clear-sky irradiation is cross-checked against PVGIS. We are not trying to copy any one program, we implement the same accepted physics independently and show that the answers land in the same place.
+A **Validation** tab checks the analysis tools instead of asking you to trust them. The Solar module is validated three ways, each recomputed live in your browser on every visit: the sun position against NREL SPA published values and an independent ephemeris, the occlusion against a closed-form analytic shadow, and the end-to-end sun hours cross-checked against Ladybug Tools, a recognised open-source solar library, on a controlled scene. The clear-sky irradiation is cross-checked against PVGIS. We are not trying to copy any one program. We implement the same accepted physics independently and show that the answers land in the same place.
 
-The full reproduction, the scene file, the read points as a CSV, the reference scripts, the dependencies, and step-by-step instructions, is published in this repository under [validation-evidence](validation-evidence). Clone it and run it yourself.
+The full reproduction (the scene file, the read points as a CSV, the reference scripts, the dependencies, and step-by-step instructions) is published in this repository under [validation-evidence](validation-evidence). Clone it and run it yourself.
 
 ---
 
@@ -562,7 +562,7 @@ Security follows industry best practice rather than industry folklore.
 Most of EnergyFlowX is free to use right now. A subset of the more advanced applications is marked **Member**, which means an active account is required, often for the current testing phase. Which tools are free and which are gated may shift over time as the platform matures.
 
 - **Free** today includes humid and dry air, water and steam, natural gas, the process gases, the cryogens, the glycols, ice, all four HVAC process calculators, duct and pipe sizing, IFC Lens in full, entry to Elements with its sun, shadow, wind, vegetation and modelling tools, the MCP server for most fluids, the knowledge base, and the validation reports.
-- **Member** today includes the refrigerant group, the brine group, bulk property-table export, and the two members-only pieces of Elements: the measured-weather download and the photovoltaic yield model.
+- **Member** today includes the refrigerant group, the brine group, bulk property-table export, and the members-only pieces of Elements: measured weather (the typical-year download and the EPW parse) and the photovoltaic yield model.
 
 Access has moved in the free direction since the last revision of this document. The HVAC process calculators and pipe sizing were gated and are now open to everyone.
 

@@ -1,4 +1,4 @@
-# IFC Lens, Solar module: inter-row shading evidence
+# Elements, Solar module: inter-row shading evidence
 
 This folder holds a reproducible check of the ray-traced **inter-row shading** in the PV tool
 against a closed-form solution for the same geometry, derived independently and itself checked
@@ -15,8 +15,8 @@ how close together rows can stand: how much of a collector its neighbour takes a
 
 The tool ray-traces shadows through whatever geometry you loaded. That is the right approach for a
 real site, where the obstructions are buildings, terrain, trees and other arrays, and no closed form
-exists. It is also the approach with no independent answer to check against, which is exactly why
-this case is constructed.
+exists. It is also the approach with no independent answer to check against, which is why this
+case is constructed.
 
 For **one** arrangement, a regular grid of parallel rows on flat ground, the answer can be written
 down in closed form. So this folder builds that arrangement in the product, traces it, and compares.
@@ -39,9 +39,8 @@ standing behind an identical row. It is about fifteen lines of trigonometry, der
 geometry rather than ported from anywhere, and the full derivation is written out in the file so it
 can be checked rather than taken on faith. It shares no code with the product and imports nothing.
 
-That makes it clean-room, which is the point. It also means an error in **our** algebra would go
-straight into the oracle, and the oracle would then cheerfully validate the ray tracer against our
-own mistake. So the oracle is itself checked:
+That makes it clean-room. It also means an error in our algebra would go straight into the oracle,
+and the oracle would then validate the ray tracer against our own mistake. So the oracle is itself checked:
 
 ```text
 $ python scripts/pvlib_crosscheck.py
@@ -52,13 +51,13 @@ PASS: the two derivations agree to 8.882e-16, which is floating-point noise.
 ```
 
 against `pvlib.shading.shaded_fraction1d`, which implements Anderson and Jensen (2024) and is
-maintained by a different community entirely. pvlib is BSD-3-Clause and is used here as a reference
+maintained by a different community. pvlib is BSD-3-Clause and is used here as a reference
 implementation, not vendored.
 
 Both of pvlib's equivalent sign conventions are checked, because picking the one that happened to
-agree would be precisely the kind of fitting this file exists to rule out.
+agree would be the kind of fitting this file exists to rule out.
 
-**What that agreement is worth:** it says the algebra is right. It says nothing about the product,
+That agreement says the algebra is right. It says nothing about the product,
 because neither implementation is the product. The number that matters is in section 4.
 
 ---
@@ -96,7 +95,7 @@ Largest disagreement in shaded fraction, over all 44 sun positions:
 | 41 | 0.032 | 0.012 |
 | 81 | 0.036 | **0.006** |
 
-**The residual is two effects, and separating them is the whole result.**
+The residual comes from two effects, sampling and thickness.
 
 **Sampling.** The tool computes a lit fraction by sampling a grid of points across the panel face,
 so the answer it can express is quantised: with 7 sub-samples per axis the shaded fraction can only
@@ -104,19 +103,19 @@ land on multiples of about 0.14. The disagreement at a single sun position is th
 half a step, and that is what the numbers above show. Take the thickness away and refine the grid,
 and it falls steadily toward zero: 0.139, 0.093, 0.063, 0.021, 0.012, 0.006. Once the grid is fine
 enough to resolve the shadow edge, each doubling roughly halves it (21 to 41 is a factor of 0.57,
-41 to 81 a factor of 0.49), which is first-order convergence. **That is a quadrature error
-converging, and it is what tells this apart from a modelling error.** A modelling error does not
-care how finely you sample.
+41 to 81 a factor of 0.49), which is first-order convergence. That is a quadrature error
+converging, which is what tells it apart from a modelling error. A modelling error does not shrink
+with finer sampling.
 
 **Thickness.** The product builds a panel as a solid 4 cm box, because that is what a panel is. The
 closed form assumes a surface of zero thickness. A thicker collector casts a longer shadow, so the
-ray tracer shades slightly more, and no amount of refinement removes it: the orange curve flattens
+ray tracer shades slightly more, and refinement does not remove it. The orange curve flattens
 out at about 0.03 while the dark one keeps falling. Once the grid is fine enough to resolve the
-shadow edge (21 sub-samples and above), the difference at the built thickness is **never negative**
-at any of the 44 sun positions. The tool never claims less shade than the idealisation; it claims
+shadow edge (21 sub-samples and above), the difference at the built thickness is never negative
+at any of the 44 sun positions. The tool never claims less shade than the idealisation. It claims
 slightly more, and it is right to.
 
-**At the quality the product actually ships**, the difference straddles zero (worst case -0.039 to
+**At the quality the product ships**, the difference straddles zero (worst case -0.039 to
 +0.082 at 7 sub-samples) because the quantisation noise is larger than the thickness bias and runs
 both ways. It is noise around the right answer, not a bias, and it averages out over the thousands
 of sun positions in an annual run. **Read the per-position numbers as a bound on a single instant,
@@ -127,7 +126,7 @@ never as an error on an annual yield.**
 ## 5. What this does not establish
 
 - **Nothing about irregular geometry.** A closed form exists only for parallel rows of identical
-  collectors on flat ground. Buildings, terrain, trees and mixed arrays are exactly why the product
+  collectors on flat ground. Buildings, terrain, trees and mixed arrays are why the product
   ray-traces, and they have no analytic answer to check against.
 - **Nothing about the diffuse component.** This case is beam shading only. The sky-diffuse and
   ground-reflected terms are checked separately, against their own closed forms, in the product's

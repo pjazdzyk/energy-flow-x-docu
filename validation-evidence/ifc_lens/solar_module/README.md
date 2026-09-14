@@ -1,20 +1,20 @@
-# IFC Lens, Solar module validation evidence
+# Elements, Solar module validation evidence
 
-This folder holds a reproducible validation of the **EnergyFlowX IFC Lens Solar tool**. It
+This folder holds a reproducible validation of the **EnergyFlowX Elements Solar tool**. It
 documents how the tool computes direct sun hours, and shows that the result lands in the same
 place as an independent, recognized reference (Ladybug Tools) on a controlled scene that anyone
 can rebuild.
 
-The intent is simple. You should be able to take the files here, run the same check yourself,
-and confirm the numbers, rather than take our word for it.
+You should be able to take the files here, run the same check yourself, and confirm the numbers
+rather than take our word for it.
 
 ---
 
 ## 1. What is being validated
 
-The IFC Lens Solar tool answers a geometric question: for a given location, date and building
+The Elements Solar tool answers a geometric question: for a given location, date and building
 geometry, how many hours of direct sun does a point receive over the day. It is a comparative
-siting and overshadowing aid. It does not compute irradiance, energy yield or daylight factor.
+siting and overshadowing aid. It does not compute measured energy yield or daylight factor.
 
 We validate it on three independent legs, each against a recognized method or source:
 
@@ -22,9 +22,10 @@ We validate it on three independent legs, each against a recognized method or so
    tool uses the NOAA solar position algorithm (Meeus, *Astronomical Algorithms*). This is
    cross checked against NREL SPA reference values and an independent VSOP87 ephemeris inside
    the live in app Validation report.
-2. **Occlusion.** Whether building geometry blocks the ray from a point to the sun. The tool
-   uses ray traced shadowing (Moller Trumbore ray triangle intersection), checked against a
-   closed form analytic shadow (the gnomon relation) in the unit tests.
+2. **Occlusion.** Whether building geometry blocks the ray from a point to the sun. The live
+   heatmap rasterises it with a GPU shadow map. The unit tests check a ray traced oracle (Moller
+   Trumbore ray triangle intersection) against a closed form analytic shadow (the gnomon
+   relation), and the Solar engine self test checks the shadow map against that oracle.
 3. **End to end sun hours.** The two legs combined, counting lit time samples over the day.
    This is the comparison documented in this folder, against Ladybug Tools.
 
@@ -37,9 +38,9 @@ The PV tool adds a third claim on top of both: how much of a panel the row in fr
 away, which is what sets how close together rows can stand. That has its own case as well,
 [row_shading](row_shading/), against a closed form for the one arrangement that has one.
 
-Ladybug Tools is an open source, widely used and respected solar analysis library in the AEC
-community. Its sun engine is built on NREL Sunpath. Comparing against it is a cross check
-between two genuinely independent implementations of the same accepted physics. We are not
+Ladybug Tools is an open source solar analysis library widely used in the AEC community. Its
+sun engine is built on NREL Sunpath. Comparing against it is a cross check between two
+independent implementations of the same accepted physics. We are not
 trying to be identical to Ladybug. We are showing that our independent methodology produces the
 same answer to within the spread expected of two valid implementations.
 
@@ -62,7 +63,7 @@ and it removes every confound (glazing, messy geometry, sensor auto placement).
 | Orientation | building north is true north, bearing 0, true north is +Y |
 
 Coordinates are in metres, +X east, +Y north, +Z up. The IFC carries the location on its
-`IfcSite` (latitude, longitude, true north), so IFC Lens reads the site straight from the file.
+`IfcSite` (latitude, longitude, true north), so Elements reads the site straight from the file.
 
 Sun hours are read at seven ground points, chosen to span deep shadow to full open sky:
 
@@ -76,7 +77,7 @@ Sun hours are read at seven ground points, chosen to span deep shadow to full op
 | E | (30, 0, 0) | 25 m east, open most of the day |
 | F | (0, -10, 0) | south side, the sun is in the south, fully open |
 
-The same seven points are in `scene/solar-test-points.csv`, ready to paste into the IFC Lens
+The same seven points are in `scene/solar-test-points.csv`, ready to paste into the Elements
 "Read at point" list.
 
 ---
@@ -87,12 +88,11 @@ Both tools at a 5 minute step on 20 March in Warsaw. Daylight total 145 samples 
 sides.
 
 Sun hours can only ever be a whole number of time steps, so the table is given in **samples** as
-well as hours. That is not pedantry: it is the difference between a residual you can explain and one
-you cannot. Rounding the hours to two decimals (as the first version of this table did) introduces
-0.0033 h of transcription error, which is 4 % of a one sample tolerance, and on the one point that
-genuinely differs it pushed an otherwise correct comparison over the line.
+well as hours. Samples separate a residual you can explain from one you cannot. Rounding the hours
+to two decimals (as the first version of this table did) introduces 0.0033 h of transcription
+error, which is 4 % of a one sample tolerance, and on the one point that differs it pushed an otherwise correct comparison over the line.
 
-| Point | Position (x, y, z) m | IFC Lens | Ladybug | Difference |
+| Point | Position (x, y, z) m | Elements | Ladybug | Difference |
 | --- | --- | --- | --- | --- |
 | G | (0, 6, 0) | 13 (1.083 h) | 13 (1.083 h) | 0 |
 | A | (0, 8, 0) | 34 (2.833 h) | 35 (2.917 h) | **1 sample** |
@@ -106,34 +106,33 @@ Six of seven points are identical. The seventh, point A, differs by exactly one 
 
 **Why A and only A.** A sits right on the moving shadow edge. Whether one particular 5 minute sample
 lands on the lit or the shaded side of that edge is decided by the sun position to a fraction of a
-degree. IFC Lens uses the NOAA solar equations, Ladybug uses NREL SPA. They differ by about 0.01
-degrees, enough to flip A's one boundary sample, and nothing else: the other six points are either
+degree. Elements uses the NOAA solar equations, Ladybug uses NREL SPA. They differ by about 0.01
+degrees, enough to flip A's one boundary sample, and nothing else. The other six points are either
 fully open or deeply shaded, so a few seconds never flips them. One sample is therefore the finest
 agreement two independent solar position algorithms can be expected to reach at a shadow edge, and
 it is the tolerance the automated check uses. A 1 minute step shrinks the residual further.
 
 ### Re-verified, and now automated
 
-This comparison was originally produced by hand in June 2026. It was **re-run on 2026-09-07**, after
+This comparison was originally produced by hand in June 2026. It was re-run on 2026-09-07, after
 three months of engine work including a full audit that touched the solar and occluder paths, and
 every one of the seven points was unchanged.
 
 **Both sides were re-run, not just ours.** The Ladybug column was regenerated on 2026-09-07 with
 `ladybug-core` 0.44.52 on Python 3.13.7 and reproduced `scene/ladybug-reference.csv` exactly, row
-for row. A reference nobody re-runs is a number, not a reference: it can be a transcription error, a
-figure from a version of the library that no longer behaves that way, or simply wrong, and the
-comparison would still look immaculate.
+for row. A reference nobody re-runs can be a transcription error, a figure from a version of the
+library that no longer behaves that way, or wrong, and the comparison would still look clean.
 
-That is a good outcome, and it was an unverified one: nothing recomputed these numbers, so a
-regression would have moved them silently while this page went on showing June's table. It is now a
-**test in the EnergyFlowX test suite** (`src/utils/bim/validation/__tests__/endToEndSunHours.test.js`),
+Between June and September nothing recomputed these numbers, so a regression would have moved them
+silently while this page went on showing June's table. The comparison is now a test in the
+EnergyFlowX test suite (`src/utils/bim/validation/__tests__/endToEndSunHours.test.js`),
 run on every commit, pinned to the exact sample counts above. Flipping the sun vector's north-south
 sign, for example, fails it immediately.
 
 The same run also cross checks the occlusion step a second way: the ray versus triangle tracer is
 compared against an independent slab method (ray/AABB interval clipping, sharing no code) over a
 grid of 528 ground points across the whole shadow sweep, where exact agreement is required. Seven
-points show the shadow is about the right size in seven places; the grid shows it is the right
+points show the shadow is about the right size in seven places. The grid shows it is the right
 shape.
 
 ### Figures
@@ -142,9 +141,9 @@ Ladybug Tools, computed and rendered from the ladybug-core Python library:
 
 ![Ladybug direct sun hours](figures/ladybug-direct-sun-hours.png)
 
-EnergyFlowX IFC Lens, the live in browser tool on the same scene:
+EnergyFlowX Elements, the live in browser tool on the same scene:
 
-![IFC Lens direct sun hours](figures/ifc-lens-direct-sun-hours.png)
+![Elements direct sun hours](figures/ifc-lens-direct-sun-hours.png)
 
 ---
 
@@ -188,7 +187,7 @@ box as the context geometry and the seven points from `scene/solar-test-points.c
 points. Set the sun vectors from the same Sunpath component, so the sun positions are identical to
 the script's. Either route gives the numbers in the table above.
 
-### B. EnergyFlowX IFC Lens, headless (no browser, no account)
+### B. EnergyFlowX Elements, headless (no browser, no account)
 
 The solar position and the ray occlusion are pure, dependency free kernels, so the whole day
 integrates in milliseconds outside the browser. In a clone of the EnergyFlowX UI repository:
@@ -198,19 +197,19 @@ npm ci
 node scripts/run-vitest.mjs run src/utils/bim/validation/__tests__/endToEndSunHours.test.js
 ```
 
-That test computes the IFC Lens column of the table above from scratch and asserts the exact sample
+That test computes the Elements column of the table above from scratch and asserts the exact sample
 counts, so a pass is the reproduction. `src/utils/bim/validation/endToEndSunHours.js` holds the
-scene, the reference and the comparison; `scene/ladybug-reference.csv` here is the same reference in
+scene, the reference and the comparison. `scene/ladybug-reference.csv` here is the same reference in
 machine readable form.
 
 This route checks the physics and the geometry. It does **not** exercise the GPU shadow map the live
-heatmap rasterises with, which needs WebGL: that path is checked in the browser by the Solar tool's
+heatmap rasterises with, which needs WebGL. That path is checked in the browser by the Solar tool's
 own engine self test, against the same closed form oracle. Route C below is the one that exercises
 it end to end.
 
-### C. EnergyFlowX IFC Lens, in your browser
+### C. EnergyFlowX Elements, in your browser
 
-1. Open the IFC Lens at <https://energyflowx.com/cae-bim/ifc-lens>.
+1. Open Elements at <https://energyflowx.com/elements>.
 2. Load `scene/solar-test-box.ifc`. The location reads from the file automatically.
 3. Open the **Solar** tool. Set the date to **20 March**, the period to the whole day, and both
    the ground step and building step to **5 min**. Run the simulation.
@@ -236,7 +235,7 @@ solar_module/
   README.md                     this document
   figures/
     ladybug-direct-sun-hours.png    Ladybug Tools result (reference)
-    ifc-lens-direct-sun-hours.png   EnergyFlowX IFC Lens result
+    ifc-lens-direct-sun-hours.png   EnergyFlowX Elements result
   scene/
     solar-test-box.ifc              the test scene (box on flat ground, Warsaw site)
     solar-test-points.csv           the 7 read points, paste ready
@@ -265,6 +264,6 @@ shared physics, not copied content.
   577 to 589.
 - **NOAA solar position equations**, after Meeus J., *Astronomical Algorithms*.
 
-EnergyFlowX, the IFC Lens and the Solar tool are the property of Synerset. See the repository
+EnergyFlowX, Elements and the Solar tool are the property of Synerset. See the repository
 root for the full license and citation terms.
 </content>
