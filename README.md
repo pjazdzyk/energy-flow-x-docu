@@ -511,7 +511,7 @@ Every one of them is plain Java 21 with no framework dependency, which is delibe
 Under the hood the platform is a study in doing the boring things correctly.
 
 - **Reference-grade equations of state.** Helmholtz-energy and Gibbs-energy formulations, IAPWS-IF97 with backward equations, GERG-2008 multi-fluid models, and Span-Wagner reference correlations. The right tool for each fluid, not one approximation stretched over all of them.
-- **Stable iterative solvers.** Nested root-finding via modified Brent-Dekker and Newton-Raphson, with derivative-based steps where the analytic derivative is known (for example the Churchill friction-factor Jacobian in the hydraulics engine).
+- **Stable iterative solvers.** Nested root-finding via modified Brent-Dekker and Newton-Raphson, with derivative-based steps where the analytic derivative is known (for example the Churchill friction-factor Jacobian in the hydraulic network solver, while single-conduit sizing reports the Colebrook-White friction factor itself).
 - **A real network solver.** The hydraulic core assembles a sparse weighted-graph Laplacian and solves it with a sparse LU factorisation, robust to the indefinite systems that pumps and fans introduce, with a residual-monotone backtracking line search keeping the iteration honest.
 - **Validation as a feature.** Engine output is benchmarked against published reference tables, and that benchmark is exposed to you as a validation report rather than hidden in a test folder.
 - **Tested top to bottom.** Unit, integration, and regression suites, plus independent cross-validation by practising engineers.
