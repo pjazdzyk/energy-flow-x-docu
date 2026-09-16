@@ -126,7 +126,9 @@ A multi-fluid Helmholtz equation of state for mixtures of up to 21 components, w
 | Carbon Dioxide | CO₂ (R-744) | Span-Wagner EOS | −57 to 827 °C, ≤ 200 MPa | Free |
 | Ammonia | NH₃ (R-717) | Helmholtz EOS | −78 to 407 °C, ≤ 50 MPa | Free |
 | Propane | C₃H₈ (R-290) | Helmholtz EOS | −188 to 352 °C, ≤ 100 MPa | Free |
-| Nitrous Oxide `NEW` | N₂O (R-744A) | Helmholtz EOS, ECS transport | −91 to 252 °C, ≤ 50 MPa | Free |
+| Nitrous Oxide `NEW` | N₂O | Short-form Helmholtz EOS, ECS transport | −91 to 252 °C, ≤ 50 MPa | Free |
+
+Every process gas also reports surface tension at the saturated liquid-vapour interface, from the recommended correlations of Mulero, Cachadiña and Parra (2012). It depends on temperature alone and falls to zero at the critical point. Carbon dioxide viscosity includes its near-critical enhancement.
 
 ### Cryogens `NEW`
 
@@ -137,10 +139,10 @@ The gases that industry handles cold and liquid, each on its own reference equat
 | Nitrogen | N₂ | Span et al. reference EOS | −210 to 727 °C, ≤ 2200 MPa | Free |
 | Oxygen | O₂ | Schmidt-Wagner reference EOS | −219 to 727 °C, ≤ 82 MPa | Free |
 | Argon | Ar | Tegeler-Span-Wagner reference EOS | −189 to 427 °C, ≤ 1000 MPa | Free |
-| Helium | He | Ortiz-Vega et al. EOS | −271 to 1227 °C, ≤ 1000 MPa | Free |
+| Helium | He | Ortiz Vega et al. EOS | −271 to 1227 °C, ≤ 1000 MPa | Free |
 | Methane | CH₄ | Setzmann-Wagner reference EOS, LNG | −182 to 352 °C, ≤ 100 MPa | Free |
 
-Helium is modelled as normal-fluid helium I only. Below the lambda point at about 2.18 K the substance becomes a superfluid that this equation does not describe, and the calculator stops there rather than extrapolating into it.
+Helium is modelled as normal-fluid helium I only. Below the lambda point at about 2.18 K the substance becomes a superfluid that this equation does not describe, and the calculator stops there rather than extrapolating into it. Like the process gases, every cryogen reports surface tension at the saturated interface.
 
 ### Refrigerants
 
@@ -157,7 +159,7 @@ Eight working fluids, pure and blended, identified by standardised R-numbers, wi
 | R-407C | R-32 / R-125 / R-134a | Multi-fluid Helmholtz (blend) | −73 to 147 °C, ≤ 35 MPa | Member |
 | R-454B | R-32 / R-1234yf | Multi-fluid Helmholtz (blend) | −73 to 147 °C, ≤ 35 MPa | Member |
 
-The blends are solved as real mixtures, so the temperature glide across the dome is computed rather than ignored, and bubble and dew points are separate numbers.
+The blends are solved as real mixtures on a multi-fluid Helmholtz model with fitted binary parameters, not as pseudo-pure fluids. R-1234yf uses the 2022 international standard formulation of Lemmon and Akasaka, R-454B the 2023 R-32/R-1234yf binary of Bell, and the viscosity of R-32, R-1234yf and R-1234ze(E) comes from dedicated reference correlations. The pure refrigerants also report surface tension at the saturated interface.
 
 ### Glycols
 
@@ -695,6 +697,8 @@ The list below is a selection of the most important sources, not the whole libra
 - **[17]** Span R., Wagner W. (1996), *A New Equation of State for Carbon Dioxide Covering the Fluid Region to 1100 K and 800 MPa*. J. Phys. Chem. Ref. Data, Vol. 25(6), 1509 to 1596. One of the single-component reference models behind the Process Gases group.
 - **[18]** Lemmon E.W., Span R. (2006), *Short Fundamental Equations of State for 20 Industrial Fluids*. J. Chem. Eng. Data, Vol. 51(3), 785 to 850. The equation of state used for nitrous oxide.
 - **[19]** Huber M.L. (2018), *Models for Viscosity, Thermal Conductivity, and Surface Tension of Selected Pure Fluids*. NIST Internal Report 8209. The extended-corresponding-states transport model behind the nitrous-oxide viscosity and thermal conductivity.
+- **[19a]** Mulero A., Cachadiña I., Parra M.I. (2012), *Recommended Correlations for the Surface Tension of Common Fluids*. J. Phys. Chem. Ref. Data, Vol. 41(4), 043105. Surface tension of the process gases, the cryogens and the pure refrigerants except R-1234ze(E).
+- **[19b]** Mulero A., Cachadiña I. (2014), surface-tension correlations for several fluids. J. Phys. Chem. Ref. Data, Vol. 43(2), 023104, doi:10.1063/1.4878755. Surface tension of R-1234ze(E).
 
 ### Cryogens
 
@@ -707,6 +711,8 @@ The list below is a selection of the most important sources, not the whole libra
 ### Refrigerants
 
 - **[25]** Tillner-Roth R., Baehr H.D. (1994), *An International Standard Formulation for the Thermodynamic Properties of R-134a*. J. Phys. Chem. Ref. Data, Vol. 23(5), 657 to 729. The foundational model of the Refrigerants group, alongside the pure-fluid and multi-fluid Helmholtz models for the remaining members and blends.
+- **[25a]** Lemmon E.W., Akasaka R. (2022), *An International Standard Formulation for 2,3,3,3-Tetrafluoroprop-1-ene (R1234yf) Covering Temperatures from the Triple Point Temperature to 410 K and Pressures Up to 100 MPa*. Int. J. Thermophys., Vol. 43(8), 119.
+- **[25b]** Bell I.H. (2023), *Mixture Model for Refrigerant Pairs R-32/1234yf, R-32/1234ze(E), R-1234ze(E)/227ea, R-1234yf/152a, and R-125/1234yf*. J. Phys. Chem. Ref. Data, Vol. 52(1), 013101. The R-32/R-1234yf binary behind R-454B.
 
 ### Secondary Working Fluids, glycols and brines
 
