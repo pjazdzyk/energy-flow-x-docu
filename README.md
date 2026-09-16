@@ -411,7 +411,8 @@ The server speaks streamable HTTP at `https://energyflowx.com/energy-flow-x/mcp`
 | `get_saturation_properties` | Saturation of a pure fluid, boiling temperature at a pressure or the reverse, phase densities, latent heat, critical and triple points. |
 | `get_solid_properties` | Ice properties. |
 | `convert_units` | Unit conversion, plus a discovery call listing which symbols a quantity accepts. |
-| `search_conduit_catalog` | Standard pipes and ducts by code or manufacturer: shape, wall roughness, available nominal sizes. |
+| `search_conduit_catalog` | Standard pipes and ducts by code or manufacturer: shape, wall roughness, size classes and available sizes. |
+| `get_conduit_dimensions` | The full size table of one pipe or duct: inner and outer size, wall thickness and SDR for every size in every class, ready to feed `size_conduit`. |
 | `size_conduit` | Sizes one pipe or duct: velocity, pressure drop, Reynolds number, friction factor, flow regime. |
 
 Every tool is **read-only, idempotent and closed-world**, and advertises itself as such, so a client does not stop to ask permission for a lookup. Inputs carry their own units as strings (`"20oC"`, `"1.5bar"`, `"70degF"`, `"8g/kg"`), and each response key names the unit it actually produced, so what you received is visible in the payload rather than inferred. A parameter sweep is one call with a list of states rather than a loop. The same access policy that gates the website gates the tools: most fluids are open, the refrigerants and brines want a free account.
