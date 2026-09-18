@@ -413,7 +413,14 @@ The server speaks streamable HTTP at `https://energyflowx.com/energy-flow-x/mcp`
 | `convert_units` | Unit conversion, plus a discovery call listing which symbols a quantity accepts. |
 | `search_conduit_catalog` | Standard pipes and ducts by code or manufacturer: shape, wall roughness, size classes and available sizes. |
 | `get_conduit_dimensions` | The full size table of one pipe or duct: inner and outer size, wall thickness and SDR for every size in every class, ready to feed `size_conduit`. |
-| `size_conduit` | Sizes one pipe or duct: velocity, pressure drop, Reynolds number, friction factor, flow regime. |
+| `size_conduit` | Sizes one pipe or duct: velocity, pressure drop, Reynolds number, friction factor, flow regime. Accepts a natural-gas preset or composition, and a heat load in place of a flow for water, glycols, brines and air. |
+| `select_conduit_size` | Picks the catalogue size for a flow against stated criteria (a design-criteria rule set, explicit limits, or both): the smallest size that passes, the size below and the limit it breaks, the size above, and the exact bore at which the deciding limit is met. For ducts, the narrowest width at each allowed height. Schedules of up to 20 segments with fitting losses, and series paths judged against a total-drop budget. |
+| `calculate_air_coil` | One heating or cooling coil: outlet state, duty, condensate, chilled-water or heating-water flow. A target the coil cannot reach is reported as not feasible, never as a clean answer. |
+| `calculate_air_mixing` | Two to six air streams mixed, each at its stated flow, with the fresh-air share. |
+| `calculate_heat_recovery` | One heat-recovery unit named to EN 16798-3: sensible or enthalpy exchange, leakage, frost protection, every port, EN 308 effectiveness, and the achievable range when a target is out of reach. |
+| `calculate_air_sequence` | A straight chain of up to eight air-handling steps in one call (for example cool, reheat, mix), with every step's state and duty, the totals, and the first step that cannot deliver. |
+
+`select_conduit_size` answers the question a designer actually asks, "which size, and why not one smaller?", with the same numbers and the same edge rule as the web sizing chart. The four air-process tools run on the same network solver as the web calculators, so a number from your assistant equals the one on the page for the same inputs.
 
 Every tool is **read-only, idempotent and closed-world**, and advertises itself as such, so a client does not stop to ask permission for a lookup. Inputs carry their own units as strings (`"20oC"`, `"1.5bar"`, `"70degF"`, `"8g/kg"`), and each response key names the unit it actually produced, so what you received is visible in the payload rather than inferred. A parameter sweep is one call with a list of states rather than a loop. The same access policy that gates the website gates the tools: most fluids are open, the refrigerants and brines want a free account.
 
