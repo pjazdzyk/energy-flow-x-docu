@@ -291,6 +291,8 @@ The same tool imports the **surroundings**: neighbouring buildings and street tr
 
 Five measurement modes run on the same client-side geometry, with snapping (green to a vertex, blue to an edge, orange to a face): **Distance** (with the angle to a snapped edge, flagging ⟂ 90° when square), **Area** (exact for any planar outline, concave shapes included), **Angle**, **Volume** (read from the IFC quantity, with a bounding-box fallback), and **Probe** for exact X/Y/Z coordinates relative to the elevation datum.
 
+Lengths, areas, volumes, temperatures, speeds and pressures read in **Metric or Imperial**, chosen once per device in **Options**. Imperial follows US drawing practice: building dimensions in feet and sixteenths of an inch (`12'-6 1/2"`), site distances, coordinates and elevations in decimal feet, and site areas in acres above one acre. Measurements already on screen re-label themselves when the system changes, and the model underneath never changes. A number you type is read in the chosen system, an explicit unit always wins (`1200mm`, `4'6"`), and an entry that could mean two things (`1,500`) is refused with the reason instead of being guessed.
+
 [<img src="assets/images/lens-measure.webp" alt="Several measurements taken on a model at once: a distance, a polygon area, an angle, a bounding volume and a probed point coordinate." style="width:100%;">](https://energyflowx.com/ifc-lens/knowledge/measuring)
 
 *Distance, area, angle, volume and point-coordinate probes, each snapped to real model geometry rather than to whatever the cursor happens to be over. Measurements persist together, so a set can be read side by side.*
@@ -317,9 +319,9 @@ Models, notes, measurements and view state save into a single **project file**, 
 
 On the way out there is a quantity takeoff to CSV scoped to the selection or the whole model, geometry export back to **GLB, OBJ and STL**, screenshots, and a **viewport recorder** that captures the 3D view to a WebM video with optional microphone narration.
 
-### Shortcuts, and using the right GPU
+### Options, shortcuts, and using the right GPU
 
-Every command has a keyboard shortcut, the full list is documented, and the bindings can be remapped with conflict detection. There is also a page for a common laptop problem. A laptop with two graphics adapters often runs a WebGL viewer on the integrated one. The browser and operating-system settings that move it to the dedicated GPU are written down, because that one switch is usually the biggest performance win.
+The **Options** tool holds the unit system (Metric or Imperial) and every keyboard shortcut. Every command has a shortcut, the full list is documented, and the bindings can be remapped with conflict detection. There is also a page for a common laptop problem. A laptop with two graphics adapters often runs a WebGL viewer on the integrated one. The browser and operating-system settings that move it to the dedicated GPU are written down, because that one switch is usually the biggest performance win.
 
 ### The manual, thirteen topic pages
 
@@ -450,6 +452,8 @@ The whole set is indexed at [`/knowledge`](https://energyflowx.com/knowledge), w
 ## 11. UNITS AND FLEXIBILITY
 
 EnergyFlowX speaks both **SI and Imperial**, fluently, with consistent dimensional handling under the hood. Inputs are entered as a value with a unit, validated live, and converted on the fly. Outputs can be overridden per quantity, so pressure in kPa, temperature in K, and flow in m³/min can all coexist on the same screen if that is how your project specifies them.
+
+IFC Lens and Elements switch between **Metric and Imperial** in one place: fields, canvas dimensions, gizmos, measurements, wind and colour legends, reports and CSV exports. Three things stay SI on purpose: solar and PV energy (W/m², kWh/m², kWh, kWp, as the US solar industry itself publishes them), the validation benchmarks (they are compared against published SI figures), and geometry exports (GLB, OBJ and STL are metres by their own specifications). Conversions run in the browser from exact definitions (a foot is 0.3048 m, never a rounded factor), each checked against NIST SP 811.
 
 The whole interface is deliberately **lightweight and fast**. The classic application screens favour vector graphics over heavy raster images, and the pages are built for content density and daily professional use rather than decoration.
 
