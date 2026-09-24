@@ -35,7 +35,7 @@ To readers unfamiliar with fluid mechanics and thermodynamics, the calculation f
 5. [Hydraulics, duct and pipe sizing](#5-hydraulics-duct-and-pipe-sizing)
 6. [IFC Lens, BIM in the browser](#6-ifc-lens-bim-in-the-browser)
 7. [Elements, the 3D design workspace](#7-elements-the-3d-design-workspace)
-8. [The MCP server, EFX inside your AI assistant](#8-the-mcp-server-efx-inside-your-ai-assistant)
+8. [The MCP servers, EFX inside your AI assistant](#8-the-mcp-servers-efx-inside-your-ai-assistant)
 9. [Property tables and data tools](#9-property-tables-and-data-tools)
 10. [Knowledge, the documentation engineers actually read](#10-knowledge-the-documentation-engineers-actually-read)
 11. [Units and flexibility](#11-units-and-flexibility)
@@ -399,31 +399,48 @@ The full reproduction (the scene file, the read points as a CSV, the reference s
 
 ---
 
-## 8. THE MCP SERVER, EFX INSIDE YOUR AI ASSISTANT
+## 8. THE MCP SERVERS, EFX INSIDE YOUR AI ASSISTANT
 
 `NEW` EnergyFlowX exposes a curated, read-only slice of its engine over the **Model Context Protocol**, so an LLM assistant (Claude Code, Claude Desktop, Cursor, VS Code, or any MCP client) can call the same validated physics you get in the browser, **with the method and the validity range attached to every number**. It is the antidote to asking a chatbot for a fluid property and being handed a confident guess.
 
-The server speaks streamable HTTP at `https://energyflowx.com/energy-flow-x/mcp`, and the [`/mcp-server`](https://energyflowx.com/mcp-server) page carries the exact configuration snippet for each client, with API-key management in your account settings.
+There are two servers, both on streamable HTTP. The main one, at `https://energyflowx.com/energy-flow-x/mcp`, carries the eleven property, sizing and air-handling tools below. **Hydronic MCP**, at `https://energyflowx.com/energy-flow-x/mcp/hydronic`, solves whole hydraulic networks and is described after them. They are separate so that a client which only wants the density of water never carries the network vocabulary. The [`/mcp-server`](https://energyflowx.com/mcp-server) page carries the exact configuration snippet for each client, with API-key management in your account settings.
+
+For Claude Code there is an official plugin, [**energy-flow-x-mcp**](https://github.com/pjazdzyk/energy-flow-x-mcp). Two commands connect both servers and add four skills that teach the assistant the method: which inputs matter, what to check before quoting a number, and, for networks, how to hand the result over as an HTML study. Its [CAPABILITIES.md](https://github.com/pjazdzyk/energy-flow-x-mcp/blob/master/CAPABILITIES.md) lists every fluid, block, rule set, fitting and limit, each checked against the live servers.
 
 | Tool | What it answers |
 |---|---|
-| `get_fluid_properties` | Properties at a state for nearly every supported fluid, including humid air (from RH, humidity ratio, wet bulb or dew point) and steam (from any two of p, T, h, s, x). |
+| `get_fluid_properties` | Properties at a state for nearly every supported fluid, including humid air (from six input pairs over RH, humidity ratio, wet bulb, dew point and enthalpy) and steam (from any two of p, T, h, s, x). |
 | `get_natural_gas_properties` | GERG-2008 properties plus ISO 6976 calorific value and Wobbe index, from a preset or an explicit composition. |
 | `list_fluids` | The catalogue: every fluid, the state inputs it accepts, its validity range, its method, and its access tier. |
-| `get_saturation_properties` | Saturation of a pure fluid, boiling temperature at a pressure or the reverse, phase densities, latent heat, critical and triple points. |
+| `get_saturation_properties` | Saturation of a pure fluid, boiling temperature at a pressure or the reverse, phase densities, latent heat, critical and triple points. Nine pure substances, and the pure refrigerants R134a, R1234ze, R1234yf, R32 and R125 with a free account. |
 | `get_solid_properties` | Ice properties. |
 | `convert_units` | Unit conversion, plus a discovery call listing which symbols a quantity accepts. |
 | `search_conduit_catalog` | Standard pipes and ducts by code or manufacturer: shape, wall roughness, size classes and available sizes. |
 | `get_conduit_dimensions` | The full size table of one pipe or duct: inner and outer size, wall thickness and SDR for every size in every class, ready to feed `size_conduit`. |
 | `size_conduit` | Sizes one pipe or duct: velocity, pressure drop, Reynolds number, friction factor, flow regime. Accepts a natural-gas preset or composition, and a heat load in place of a flow for water, glycols, brines and air. |
 | `select_conduit_size` | Picks the catalogue size for a flow against stated criteria (a design-criteria rule set, explicit limits, or both): the smallest size that passes, the size below and the limit it breaks, the size above, and the continuous bore at which every limit is met. For ducts, the narrowest width at each allowed height. Schedules of up to 20 segments with fitting losses, and series paths judged against a total-drop budget. |
-| `calculate_air_process` | Air handling: one heating or cooling coil, one mixing box (up to six inlets) or one heat-recovery unit named to EN 16798-3, or a straight chain of up to eight (for example mix, recover heat, reheat). Coils give duty, condensate and the chilled-water or heating-water flow. Heat recovery gives every port, EN 308 effectiveness, leakage, frost protection and the achievable range when a target is out of reach. A step that cannot deliver its target is reported as not feasible, never as a clean answer. |
+| `calculate_air_process` | Air handling: one block or a straight chain of up to eight, from nine blocks: heating and cooling coils, mixing (up to six inlets), heat recovery named to EN 16798-3, fan, steam humidifier, air-water contact, dehumidification and desiccant wheel. Coils give duty, condensate and the chilled-water or heating-water flow. Heat recovery gives every port, EN 308 effectiveness, leakage, frost protection and the achievable range when a target is out of reach. The fan gives air, shaft and electrical power and the heat it adds to the stream. A step that cannot deliver its target is reported as not feasible, never as a clean answer. |
 
 `select_conduit_size` answers the question a designer actually asks, "which size, and why not one smaller?", with the same numbers and the same edge rule as the web sizing chart. `calculate_air_process` runs on the same network solver as the web calculators, so a number from your assistant equals the one on the page for the same inputs.
 
-Every tool is **read-only, idempotent and closed-world**, and advertises itself as such, so a client does not stop to ask permission for a lookup. Inputs carry their own units as strings (`"20oC"`, `"1.5bar"`, `"70degF"`, `"8g/kg"`), and each response key names the unit it actually produced, so what you received is visible in the payload rather than inferred. A parameter sweep is one call with a list of states rather than a loop. The same access policy that gates the website gates the tools: most fluids are open, the refrigerants and brines want a free account.
+Every tool on the main server is **read-only, idempotent and closed-world**, and advertises itself as such, so a client does not stop to ask permission for a lookup. Inputs carry their own units as strings (`"20oC"`, `"1.5bar"`, `"70degF"`, `"8g/kg"`), and each response key names the unit it actually produced, so what you received is visible in the payload rather than inferred. A parameter sweep is one call with a list of states rather than a loop. The same access policy that gates the website gates the tools: most fluids are open, the refrigerants and brines want a free account.
 
-The eleven tool definitions come to about 8,600 tokens. Clients that load tool definitions on demand (Claude Code among them) pay only for the tools a conversation uses. On a small local model with a short context window, enable only the tools you need.
+The eleven tool definitions come to about 9,500 tokens. Clients that load tool definitions on demand (Claude Code among them) pay only for the tools a conversation uses. On a small local model with a short context window, enable only the tools you need.
+
+### Hydronic MCP, complex hydraulics
+
+`NEW` The second server solves a whole piped network, which no single-conduit tool can: rings, meshes and branched systems of any shape, with elevations, fittings and lumped resistances, in water, glycol or brine. On a ring the flow in each leg is the unknown, so where the flow divides, and which block the pressure runs out at, only come from solving the whole circuit at once.
+
+| Tool | What it does |
+|---|---|
+| `hydronic_session` | Opens, lists, exports and closes a design. A network is never a tool argument: it lives on the server behind a handle, so its size costs nothing per call. |
+| `hydronic_edit` | Adds nodes, pipes, fittings and resistances in batches of up to 500 edits, applied all or nothing. A field that does not belong to its edit is refused by name. |
+| `hydronic_solve` | Solves in steady state: whether it converged, the edges ranked by the pressure they lose (friction, local and static apart), the lowest and highest pressure nodes, and every assumption made. |
+| `hydronic_inspect` | Reads the design back as authored, and what still blocks a solve. |
+
+A design that could not mean anything, with nothing anchoring the pressure or nothing driving the flow, is refused rather than solved, because such a network still converges and returns a report that looks real. Six MCP resources carry the vocabulary and two complete worked designs, a riser and a campus ring main.
+
+Hydronic MCP needs an API key on every call, because a design lives on the server between calls and belongs to the account that made it. This release has no pumps or control valves yet: a plant is modelled as a fixed-pressure boundary. **Network solving is free while it is being tested, and that is temporary.** It costs real compute and will become a paid feature, and the free access can be limited, metered or withdrawn at any time and without notice.
 
 ---
 
@@ -487,7 +504,7 @@ Three things make it different from a sizing tool with a diagram on top:
 
 The module rollout starts with **compressed air**, then water networks, heating circuits, HVAC rooms and zones, and steam distribution. The solver underneath, `flow-symphony`, is already built and already runs the multi-fluid, thermally coupled cases described in the engine-room section below.
 
-Hydronic is **not released yet**. The preview page at [energyflowx.com/hydronic](https://energyflowx.com/hydronic) explains the scope, the discipline coverage and the licensing intent, and takes waitlist signups for the Founders' Circle. If you design networks for a living, that page is also where to tell me what you actually need, while it is still cheap to change.
+The Hydronic *application*, the builder above, is **not released yet**. Its network solver can already be reached from an AI assistant through Hydronic MCP (section 8). The preview page at [energyflowx.com/hydronic](https://energyflowx.com/hydronic) explains the scope, the discipline coverage and the licensing intent, and takes waitlist signups for the Founders' Circle. If you design networks for a living, that page is also where to tell me what you actually need, while it is still cheap to change.
 
 ---
 
@@ -580,7 +597,7 @@ Security follows industry best practice rather than industry folklore.
 
 Most of EnergyFlowX is free to use right now. A subset of the more advanced applications is marked **Member**, which means an active account is required, often for the current testing phase. Which tools are free and which are gated may shift over time as the platform matures.
 
-- **Free** today includes humid and dry air, water and steam, natural gas, the process gases, the cryogens, the glycols, ice, all four HVAC process calculators, duct and pipe sizing, IFC Lens in full, entry to Elements with its sun, shadow, wind, vegetation and modelling tools, the MCP server for most fluids, the knowledge base, and the validation reports.
+- **Free** today includes humid and dry air, water and steam, natural gas, the process gases, the cryogens, the glycols, ice, all four HVAC process calculators, duct and pipe sizing, IFC Lens in full, entry to Elements with its sun, shadow, wind, vegetation and modelling tools, the main MCP server for most fluids, the knowledge base, and the validation reports. Hydronic MCP needs a free API key and is free while it is being tested, which is temporary.
 - **Member** today includes the refrigerant group, the brine group, bulk property-table export, and the members-only pieces of Elements: measured weather (the typical-year download and the EPW parse) and the photovoltaic yield model.
 
 Access has moved in the free direction since the last revision of this document. The HVAC process calculators and pipe sizing were gated and are now open to everyone.
