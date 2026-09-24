@@ -429,16 +429,18 @@ The eleven tool definitions come to about 9,500 tokens. Clients that load tool d
 
 ### Hydronic MCP, complex hydraulics
 
-`NEW` The second server solves a whole piped network, which no single-conduit tool can: rings, meshes and branched systems of any shape, with elevations, fittings and lumped resistances, in water, glycol or brine. On a ring the flow in each leg is the unknown, so where the flow divides, and which block the pressure runs out at, only come from solving the whole circuit at once.
+`NEW` The second server solves a whole piped or ducted network, which no single-conduit tool can: rings, meshes and branched systems of any shape, with elevations, fittings and lumped resistances. It carries liquids, gases and steam: water and glycol circuits, compressed air, natural gas and the industrial gases, dry or humid ventilation air, steam mains and refrigerant lines, and several fluids in one design, each system solved at its own temperature. On a ring the flow in each leg is the unknown, so where the flow divides, and which block the pressure runs out at, only come from solving the whole circuit at once.
+
+A gas is solved with the isothermal compressible pipe law, density following pressure along every run and the acceleration of the expanding gas included. Demands are taken the way each trade states them: mass flow, normal or standard cubic metres, free air delivery at ISO 1217, or the volume at the line, converted with the real-gas density at the state the figure refers to. After the solve every node is checked against the fluid's saturation line, so steam that condenses, a refrigerant liquid line that flashes, water that boils at a high point or humid air past its dew point is reported rather than presented as a flow.
 
 | Tool | What it does |
 |---|---|
 | `hydronic_session` | Opens, lists, exports and closes a design. A network is never a tool argument: it lives on the server behind a handle, so its size costs nothing per call. |
-| `hydronic_edit` | Adds nodes, pipes, fittings and resistances in batches of up to 500 edits, applied all or nothing. A field that does not belong to its edit is refused by name. |
-| `hydronic_solve` | Solves in steady state: whether it converged, the edges ranked by the pressure they lose (friction, local and static apart), the lowest and highest pressure nodes, and every assumption made. |
+| `hydronic_edit` | Adds nodes, pipes, fittings and resistances in batches of up to 500 edits, applied all or nothing, and sets the fluid of each system. A field that does not belong to its edit is refused by name. |
+| `hydronic_solve` | Solves in steady state: whether it converged, the edges ranked by the pressure they lose (friction, local and static apart), the fastest pipes with their velocity and, for a gas, Mach number, the lowest and highest pressure nodes, any node where the fluid left its phase, and every assumption made. |
 | `hydronic_inspect` | Reads the design back as authored, and what still blocks a solve. |
 
-A design that could not mean anything, with nothing anchoring the pressure or nothing driving the flow, is refused rather than solved, because such a network still converges and returns a report that looks real. Six MCP resources carry the vocabulary and two complete worked designs, a riser and a campus ring main.
+A design that could not mean anything, with nothing anchoring the pressure or nothing driving the flow, is refused rather than solved, because such a network still converges and returns a report that looks real. Seven MCP resources carry the vocabulary and three complete worked designs: a riser, a campus ring main and a compressed-air ring.
 
 Hydronic MCP needs an API key on every call, because a design lives on the server between calls and belongs to the account that made it. This release has no pumps or control valves yet: a plant is modelled as a fixed-pressure boundary. **Network solving is free while it is being tested, and that is temporary.** It costs real compute and will become a paid feature, and the free access can be limited, metered or withdrawn at any time and without notice.
 
