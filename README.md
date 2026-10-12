@@ -75,11 +75,11 @@ Breaking a monopoly takes a movement. Your trust, your feedback, and spreading t
 
 EnergyFlowX is built around six promises, and every calculator in the suite is held to them.
 
-- **Validated accuracy.** Results are compared against published IAPWS verification values, the Lemmon et al. Helmholtz-EOS correlations for air, and open reference data, using systematic benchmarking. The comparisons, with their tolerances and the reference values used, are in the validation evidence folder of this repository.
+- **Checked accuracy.** Results are checked against the verification values published with the IAPWS releases and the reference equations for air.
 - **Fast numerical methods.** Built on robust iterative solvers, including modified Brent-Dekker and Newton-Raphson methods, tuned for convergence stability and computational efficiency.
 - **Well tested.** Verified through unit, integration, and regression testing, with independent cross-validation by other engineers wherever possible.
 - **Flexible units.** Full SI and Imperial support with consistent internal dimensional handling across every calculation.
-- **Independently developed.** Built strictly on science and engineering best practice, with no manufacturer or vendor influence on the equations or results.
+- **Independently developed.** Built strictly on science and engineering best practice, with no manufacturer or vendor sponsorship, and product data compiled from public datasheets.
 - **Actively maintained.** Continuously refined, with ongoing improvements, validation updates, and performance work driven by new findings and your feedback.
 
 Each result also ships with a built-in **validation report**, a benchmark of the engine output against reference data, so you can see the agreement instead of taking it on faith. On the BIM side the same principle goes one step further: the solar validation recomputes in your browser on every visit, and the full reproduction is published in this repository for anyone who wants to run it themselves.
@@ -213,7 +213,7 @@ The hydraulics suite sizes ventilation ducts and piping against real fluid prope
 
 [<img src="assets/images/hydraulics-ducts.png" alt="Duct sizing calculator with heatmap" style="width:100%;">](https://energyflowx.com/hydraulics/duct-sizing-calculator)
 
-**Duct Sizing** and **Pipe Sizing** (both free) share a multi-criteria sizing engine that is a genuinely rare animal on the market. Most sizing tools offer either a fixed catalogue from one manufacturer or a generic table. EnergyFlowX puts **manufacturer-based product data, common trade series, and generic geometry into one sizing tool**, switchable on the fly. Pipe and tube dimensions are compiled from manufacturer datasheets. Series names follow common trade usage. Check the standard your project requires. It handles:
+**Duct Sizing** and **Pipe Sizing** (both free) share one multi-criteria sizing engine that combines **manufacturer-based product data, common trade series, and generic geometry**, switchable on the fly. Pipe and tube dimensions are compiled from manufacturer datasheets. Series names follow common trade usage. Check the standard your project requires. It handles:
 
 - Circular and rectangular cross-sections,
 - Flow velocity and Reynolds number,
@@ -307,7 +307,7 @@ Lengths, areas, volumes, temperatures, speeds and pressures read in **Metric or 
 
 ### BCF issue coordination
 
-**BCF** (BIM Collaboration Format) is the buildingSMART standard for exchanging issues without sending the model. Author topics with a saved viewpoint, the involved elements, a snapshot, type, status, and priority, then export a `.bcfzip` that opens in Revit, Navisworks, Solibri, or BIMcollab. Product names belong to their respective owners and are used only to describe compatibility, with no affiliation implied. Open issues someone sent you, restore their exact viewpoint and selection, reply or change status, and export the reviewed file back, all in the browser.
+**BCF** (BIM Collaboration Format) is the buildingSMART standard for exchanging issues without sending the model. Author topics with a saved viewpoint, the involved elements, a snapshot, type, status, and priority, then export a `.bcfzip` that opens in BCF-capable tools such as Solibri and BIMcollab, and in Revit or Navisworks through a BCF add-in. Product names belong to their respective owners and are used only to describe compatibility, with no affiliation implied. Open issues someone sent you, restore their exact viewpoint and selection, reply or change status, and export the reviewed file back, all in the browser.
 
 ### Projects, notes, and getting the work back out
 
@@ -401,7 +401,7 @@ The full reproduction (the scene file, the read points as a CSV, the reference s
 
 ## 8. THE MCP SERVERS, EFX INSIDE YOUR AI ASSISTANT
 
-`NEW` EnergyFlowX exposes a curated, read-only slice of its engine over the **Model Context Protocol**, so an LLM assistant (Claude Code, Claude Desktop, Cursor, VS Code, or any MCP client) can call the same validated physics you get in the browser, **with the method and the validity range attached to every number**. It is the antidote to asking a chatbot for a fluid property and being handed a confident guess.
+`NEW` EnergyFlowX exposes a curated, read-only slice of its engine over the **Model Context Protocol**, so an LLM assistant (Claude Code, Claude Desktop, Cursor, VS Code, or any MCP client) can call the same engine you use in the browser, **with the method and the validity range attached to every number**. It is the antidote to asking a chatbot for a fluid property and being handed a confident guess.
 
 There are two servers, both on streamable HTTP, and a client connects one of them. The **free server**, at `https://energyflowx.com/energy-flow-x/mcp/free`, needs no account and carries the eleven property, sizing and air-handling tools below, without the members-only fluids and the steam humidifier. The **members server**, at `https://energyflowx.com/energy-flow-x/mcp/members`, carries every tool behind one sign-in to your account: the same eleven with nothing held back, and the **Hydronic tools**, which solve whole hydraulic networks and are described after them. The free server stays separate so that a client which only wants the density of water never carries the network vocabulary. The [`/mcp-server`](https://energyflowx.com/mcp-server) page carries the exact configuration snippet for each client, what each tool costs in an assistant's context, and the skills to download. Connected apps and API keys are managed in your account settings.
 
@@ -620,7 +620,7 @@ Every result you see comes from a deterministic algorithm evaluating an establis
 
 ## 20. LICENSING, CITATION, AND ATTRIBUTION
 
-EnergyFlowX, its source code, user interface, design, text, and the compilations of data it assembles are the intellectual property of Synerset and are protected by copyright and applicable law. Published equations and methods, including IAPWS formulations, remain free for everyone to use.
+EnergyFlowX, its source code, user interface, design, text, and the compilations of data it assembles are the intellectual property of Synerset and are protected by copyright and applicable law, excluding third-party data, which stays under its own terms. Synerset claims no rights in published equations and methods.
 
 **© 2026 Biuro Projektów i Analiz SYNERSET, Piotr Jażdżyk. All rights reserved.** EnergyFlowX™ and Synerset™ are trademarks of *Biuro Projektów i Analiz SYNERSET, Piotr Jażdżyk*, based in Poland. Any reproduction, redistribution, automated scraping or ingestion by machine-learning systems, reverse engineering, or derivation of the software, in whole or in part, without prior written permission of the rightsholder is strictly prohibited.
 
@@ -641,7 +641,7 @@ Piotr Jażdżyk (2026). EnergyFlowX [Computer software]. Synerset. Retrieved fro
 }
 ```
 
-**Disclaimer.** This is independent, private software developed for educational and general engineering reference. It is not an official IAPWS product, nor is it certified, accredited, or endorsed by IAPWS in any manner. All thermophysical calculations are based on publicly available IAPWS formulations and published scientific correlations, and the implementations are the author's own interpretation of those formulations. Results are compared against published verification values and reference data (see the validation evidence), but **all calculations must be reviewed and approved by a licensed, chartered, or professional engineer responsible for the design** before use. The software is provided as-is, without warranty of any kind, and the author accepts no liability for decisions made on the basis of these calculations.
+**Disclaimer.** This is independent, private software developed for educational and general engineering reference. It is not an official IAPWS product, nor is it certified, accredited, or endorsed by IAPWS in any manner. All thermophysical calculations are based on publicly available IAPWS formulations and published scientific correlations, and the implementations are the author's own interpretation of those formulations. Results are checked against published verification values, but **all calculations must be reviewed and approved by a licensed, chartered, or professional engineer responsible for the design** before use. The software is provided as-is, without warranty of any kind, and the author accepts no liability for decisions made on the basis of these calculations.
 
 ---
 
