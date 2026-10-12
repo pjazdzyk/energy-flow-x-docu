@@ -3,9 +3,9 @@
 [<img src="assets/images/short-banner.png" alt="EnergyFlowX" style="width:620px;">](https://energyflowx.com)
 
 > **Professional engineering calculations. From first principles to final numbers.**
-> Bridge complex thermodynamic theory and daily engineering practice. Validated, accurate, content-rich, fast, and unit-flexible.
+> Bridge complex thermodynamic theory and daily engineering practice. Documented, reproducible, content-rich, fast, and unit-flexible.
 
-**EnergyFlowX** is a professional-grade web platform for thermophysical property analysis, HVAC process design, fluid mechanics, and browser-native BIM and solar analysis. It is built for HVAC/MEP engineers, mechanical engineers, chemical and process engineers, and the BIM coordinators and PV designers who work alongside them, everyone who needs precise, standards-based numbers and would rather not assume that specific heat is a constant.
+**EnergyFlowX** is a professional-grade web platform for thermophysical property analysis, HVAC process design, fluid mechanics, and browser-native BIM and solar analysis. It is built for HVAC/MEP engineers, mechanical engineers, chemical and process engineers, and the BIM coordinators and PV designers who work alongside them, everyone who needs precise, source-referenced numbers and would rather not assume that specific heat is a constant.
 
 | | |
 |---|---|
@@ -20,7 +20,7 @@ This is not "_just another psychrometrics calculator_". It is a comprehensive en
 
 To readers unfamiliar with fluid mechanics and thermodynamics, the calculation forms may look deceptively simple. Trust me, there is nothing simple here once you look behind the curtain.
 
-**No fluid parameter is treated as a constant.** Density, specific heat, viscosity, conductivity, every temperature- and pressure-dependent property is computed from first-principles equations sourced from international standards (IAPWS, ISO, EN, IEC), peer-reviewed literature, or formulations derived independently. The full reference list lives at the end of this document.
+**No fluid parameter is treated as a constant.** Density, specific heat, viscosity, conductivity, every temperature- and pressure-dependent property is computed from published equations and IAPWS releases, peer-reviewed literature, or formulations derived independently, with standards named for reference only. The full reference list lives at the end of this document.
 
 [<img src="assets/images/homepage-view.png" alt="EnergyFlowX workspace launchpad" style="width:100%;">](https://energyflowx.com)
 
@@ -75,11 +75,11 @@ Breaking a monopoly takes a movement. Your trust, your feedback, and spreading t
 
 EnergyFlowX is built around six promises, and every calculator in the suite is held to them.
 
-- **Validated accuracy.** Results are validated against IAPWS reference formulations, Lemmon et al. Helmholtz-EOS correlations for air, and official property tables using systematic benchmarking. Where applicable, implementations are cross-checked against international standard formulations and published reference data.
+- **Validated accuracy.** Results are compared against published IAPWS verification values, the Lemmon et al. Helmholtz-EOS correlations for air, and open reference data, using systematic benchmarking. The comparisons, with their tolerances and the reference values used, are in the validation evidence folder of this repository.
 - **Fast numerical methods.** Built on robust iterative solvers, including modified Brent-Dekker and Newton-Raphson methods, tuned for convergence stability and computational efficiency.
 - **Well tested.** Verified through unit, integration, and regression testing, with independent cross-validation by other engineers wherever possible.
 - **Flexible units.** Full SI and Imperial support with consistent internal dimensional handling across every calculation.
-- **Independently developed.** Built strictly on science and engineering best practice, with no industrial or commercial influence pulling the numbers.
+- **Independently developed.** Built strictly on science and engineering best practice, with no manufacturer or vendor influence on the equations or results.
 - **Actively maintained.** Continuously refined, with ongoing improvements, validation updates, and performance work driven by new findings and your feedback.
 
 Each result also ships with a built-in **validation report**, a benchmark of the engine output against reference data, so you can see the agreement instead of taking it on faith. On the BIM side the same principle goes one step further: the solar validation recomputes in your browser on every visit, and the full reproduction is published in this repository for anyone who wants to run it themselves.
@@ -201,7 +201,7 @@ Beyond raw properties, EnergyFlowX computes the processes engineers actually des
 
 **Air Mixing.** Two-stream mixing with full humidity content, or multi-stream recirculation mixing of up to 20 air streams in a single pass.
 
-**AHU Heat Recovery `NEW`.** A serious heat-recovery engine built to EN 308, using the ε-NTU method. Solve from a given effectiveness, for a target supply temperature, or for a target recovered power. It supports sensible, latent, enthalpic, and total recovery, air-to-air and air-to-water configurations, frost and defrost diagnostics, and condensate tracking, with the capacity-rate asymmetry correction that separates a textbook answer from a usable one.
+**AHU Heat Recovery `NEW`.** A heat-recovery engine using the ε-NTU method that reports effectiveness on the EN 308 convention. The name is a reference, not a claim of a test result or of conformance. Solve from a given effectiveness, for a target supply temperature, or for a target recovered power. It supports sensible, latent, enthalpic, and total recovery, air-to-air and air-to-water configurations, frost and defrost diagnostics, and condensate tracking, with the capacity-rate asymmetry correction that separates a textbook answer from a usable one.
 
 These processes can be reasoned about individually, or chained so that the output of one feeds the input of the next, which is exactly how a real air handling unit is assembled section by section.
 
@@ -213,7 +213,7 @@ The hydraulics suite sizes ventilation ducts and piping against real fluid prope
 
 [<img src="assets/images/hydraulics-ducts.png" alt="Duct sizing calculator with heatmap" style="width:100%;">](https://energyflowx.com/hydraulics/duct-sizing-calculator)
 
-**Duct Sizing** and **Pipe Sizing** (both free) share a multi-criteria sizing engine that is a genuinely rare animal on the market. Most sizing tools force a choice: either a fixed catalogue from one manufacturer, or a generic table, or a standard's nominal series. EnergyFlowX puts **manufacturer data, standard series, and generic geometry into one flexible, universal sizing tool**, switchable on the fly. To the best of our knowledge no other tool does all three in a single calculator. It handles:
+**Duct Sizing** and **Pipe Sizing** (both free) share a multi-criteria sizing engine that is a genuinely rare animal on the market. Most sizing tools offer either a fixed catalogue from one manufacturer or a generic table. EnergyFlowX puts **manufacturer-based product data, common trade series, and generic geometry into one sizing tool**, switchable on the fly. Pipe and tube dimensions are compiled from manufacturer datasheets. Series names follow common trade usage. Check the standard your project requires. It handles:
 
 - Circular and rectangular cross-sections,
 - Flow velocity and Reynolds number,
@@ -307,7 +307,7 @@ Lengths, areas, volumes, temperatures, speeds and pressures read in **Metric or 
 
 ### BCF issue coordination
 
-**BCF** (BIM Collaboration Format) is the buildingSMART standard for exchanging issues without sending the model. Author topics with a saved viewpoint, the involved elements, a snapshot, type, status, and priority, then export a `.bcfzip` that opens in Revit, Navisworks, Solibri, or BIMcollab. Open issues someone sent you, restore their exact viewpoint and selection, reply or change status, and export the reviewed file back, all in the browser.
+**BCF** (BIM Collaboration Format) is the buildingSMART standard for exchanging issues without sending the model. Author topics with a saved viewpoint, the involved elements, a snapshot, type, status, and priority, then export a `.bcfzip` that opens in Revit, Navisworks, Solibri, or BIMcollab. Product names belong to their respective owners and are used only to describe compatibility, with no affiliation implied. Open issues someone sent you, restore their exact viewpoint and selection, reply or change status, and export the reviewed file back, all in the browser.
 
 ### Projects, notes, and getting the work back out
 
@@ -415,7 +415,7 @@ For Claude Code there is an official plugin, [**energy-flow-x-mcp**](https://git
 | `get_saturation_properties` | Saturation of a pure fluid, boiling temperature at a pressure or the reverse, phase densities, latent heat, critical and triple points. Nine pure substances, and the pure refrigerants R134a, R1234ze, R1234yf, R32 and R125 with a free account. |
 | `get_solid_properties` | Ice properties. |
 | `convert_units` | Unit conversion, plus a discovery call listing which symbols a quantity accepts. |
-| `search_conduit_catalog` | Standard pipes and ducts by code or manufacturer: shape, wall roughness, size classes and available sizes. |
+| `search_conduit_catalog` | Pipes and ducts by code or manufacturer: shape, wall roughness, size classes and available sizes. |
 | `get_conduit_dimensions` | The full size table of one pipe or duct: inner and outer size, wall thickness and SDR for every size in every class, ready to feed `size_conduit`. |
 | `size_conduit` | Sizes one pipe or duct: velocity, pressure drop, Reynolds number, friction factor, flow regime. Accepts a natural-gas preset or composition, and a heat load in place of a flow for water, glycols, brines and air. |
 | `select_conduit_size` | Picks the catalogue size for a flow against stated criteria (a design-criteria rule set, explicit limits, or both): the smallest size that passes, the size below and the limit it breaks, the size above, and the continuous bore at which every limit is met. For ducts, the narrowest width at each allowed height. Schedules of up to 20 segments with fitting losses, and series paths judged against a total-drop budget. |
@@ -466,7 +466,7 @@ Every calculator ships with a dedicated **Knowledge** page. Not a tooltip, a rea
 
 [<img src="assets/images/knowledge-pages.png" alt="EnergyFlowX knowledge and articles" style="width:100%;">](https://energyflowx.com)
 
-The intent is simple. You should be able to defend the number you produced, because the tool tells you exactly which standard it came from and where that standard stops being valid.
+The intent is simple. You should be able to defend the number you produced, because the tool names the published equation or release behind it and the range over which that source is valid.
 
 The whole set is indexed at [`/knowledge`](https://energyflowx.com/knowledge), which now spans the fluid groups, the HVAC processes, the sizing calculators, and the thirteen-page BIM cluster described above. Every article carries its own cited sources panel, and the numbers quoted in the prose are checked against the engine rather than typed from memory.
 
@@ -592,7 +592,7 @@ Security follows industry best practice rather than industry folklore.
 
 - Role-based access control (RBAC) for tiered content,
 - Session-based authentication using HTTP-only cookies with XSRF protection,
-- GDPR-compliant data handling with minimal data collection,
+- Data minimisation by design, collecting only what the service needs, as described in the privacy policy,
 - HTTPS in strict mode across every page,
 - Modern encryption for sensitive data, with secrets held in an external cloud key-vault,
 - No internal stack traces ever exposed to the client. If you spot a leak, report it.
@@ -614,15 +614,15 @@ Register a free account on [energyflowx.com](https://energyflowx.com) and explor
 
 ## 19. THE NUMBERS ARE COMPUTED, NOT GENERATED
 
-Every result you see comes from a deterministic algorithm evaluating an established scientific equation, not from a language model predicting a plausible-looking value. There are no LLMs in the calculation path. When a number underpins a building, a coil, or a pipe run, you want a documented equation of state solved to a tolerance, reproducible to the last digit and traceable to its source. That is exactly what the engine delivers, the same inputs always yield the same numbers, and each one can be tied back to the standard it came from.
+Every result you see comes from a deterministic algorithm evaluating an established scientific equation, not from a language model predicting a plausible-looking value. There are no LLMs in the calculation path. When a number underpins a building, a coil, or a pipe run, you want a documented equation of state solved to a tolerance, reproducible to the last digit and traceable to its source. That is exactly what the engine delivers, the same inputs always yield the same numbers, and each one can be traced to the published source it was formulated from.
 
 ---
 
 ## 20. LICENSING, CITATION, AND ATTRIBUTION
 
-EnergyFlowX, its source code, user interface, data formulations, and underlying methods are the exclusive intellectual property of Synerset and are protected by copyright and applicable law.
+EnergyFlowX, its source code, user interface, design, text, and the compilations of data it assembles are the intellectual property of Synerset and are protected by copyright and applicable law. Published equations and methods, including IAPWS formulations, remain free for everyone to use.
 
-**© 2026 Biuro Projektów i Analiz SYNERSET, Piotr Jażdżyk. All rights reserved.** EnergyFlowX™ and Synerset™ are protected trademarks of *Biuro Projektów i Analiz SYNERSET, Piotr Jażdżyk*, based in Poland. Any reproduction, redistribution, automated scraping or ingestion by machine-learning systems, reverse engineering, or derivation of the software, in whole or in part, without prior written permission of the rightsholder is strictly prohibited.
+**© 2026 Biuro Projektów i Analiz SYNERSET, Piotr Jażdżyk. All rights reserved.** EnergyFlowX™ and Synerset™ are trademarks of *Biuro Projektów i Analiz SYNERSET, Piotr Jażdżyk*, based in Poland. Any reproduction, redistribution, automated scraping or ingestion by machine-learning systems, reverse engineering, or derivation of the software, in whole or in part, without prior written permission of the rightsholder is strictly prohibited.
 
 **How to cite.** If EnergyFlowX supports your published work, software, or a design, please cite it as:
 
@@ -641,7 +641,7 @@ Piotr Jażdżyk (2026). EnergyFlowX [Computer software]. Synerset. Retrieved fro
 }
 ```
 
-**Disclaimer.** This is independent, private software developed for educational and general engineering reference. It is not an official IAPWS product, nor is it certified, accredited, or endorsed by IAPWS in any manner. All thermophysical calculations are based on publicly available IAPWS formulations and published scientific correlations, and the implementations are the author's own interpretation of those formulations. Results are validated against recognised standards, but **all calculations must be reviewed and approved by a licensed, chartered, or professional engineer responsible for the design** before use. The software is provided as-is, without warranty of any kind, and the author accepts no liability for decisions made on the basis of these calculations.
+**Disclaimer.** This is independent, private software developed for educational and general engineering reference. It is not an official IAPWS product, nor is it certified, accredited, or endorsed by IAPWS in any manner. All thermophysical calculations are based on publicly available IAPWS formulations and published scientific correlations, and the implementations are the author's own interpretation of those formulations. Results are compared against published verification values and reference data (see the validation evidence), but **all calculations must be reviewed and approved by a licensed, chartered, or professional engineer responsible for the design** before use. The software is provided as-is, without warranty of any kind, and the author accepts no liability for decisions made on the basis of these calculations.
 
 ---
 
@@ -730,9 +730,10 @@ The list below is a selection of the most important sources, not the whole libra
 
 - **[17]** Span R., Wagner W. (1996), *A New Equation of State for Carbon Dioxide Covering the Fluid Region to 1100 K and 800 MPa*. J. Phys. Chem. Ref. Data, Vol. 25(6), 1509 to 1596. One of the single-component reference models behind the Process Gases group.
 - **[18]** Lemmon E.W., Span R. (2006), *Short Fundamental Equations of State for 20 Industrial Fluids*. J. Chem. Eng. Data, Vol. 51(3), 785 to 850. The equation of state used for nitrous oxide.
-- **[19]** Huber M.L. (2018), *Models for Viscosity, Thermal Conductivity, and Surface Tension of Selected Pure Fluids*. NIST Internal Report 8209. The extended-corresponding-states transport model behind the nitrous-oxide viscosity and thermal conductivity.
+- **[19]** Huber M.L. (2018), NIST Interagency/Internal Report (NISTIR) 8209, August 2018, doi:10.6028/NIST.IR.8209. The extended-corresponding-states transport model behind the nitrous-oxide viscosity and thermal conductivity.
 - **[19a]** Mulero A., Cachadiña I., Parra M.I. (2012), *Recommended Correlations for the Surface Tension of Common Fluids*. J. Phys. Chem. Ref. Data, Vol. 41(4), 043105. Surface tension of the process gases, the cryogens and the pure refrigerants except R-1234ze(E).
-- **[19b]** Mulero A., Cachadiña I. (2014), surface-tension correlations for several fluids. J. Phys. Chem. Ref. Data, Vol. 43(2), 023104, doi:10.1063/1.4878755. Surface tension of R-1234ze(E).
+- **[19b]** Mulero A., Cachadiña I. (2014), J. Phys. Chem. Ref. Data, Vol. 43(2), article 023104, doi:10.1063/1.4878755. Surface tension of R-1234ze(E).
+- *Citation note.* Entries [19] and [19b] are cited by author, year, series, volume and DOI, which identify them exactly. Their full titles name third-party commercial software and are intentionally not reproduced here.
 
 ### Cryogens
 
@@ -755,7 +756,7 @@ The list below is a selection of the most important sources, not the whole libra
 ### HVAC Processes and Heat Recovery
 
 - **[27]** Jones W.P. (2001), *Air Conditioning Engineering*, 5th edition. Psychrometric processes, cooling-coil analysis (bypass and contact factors, condensate energy balance), heating, and adiabatic mixing of moist-air streams.
-- **[28]** EN 308:2022, *Heat exchangers, test procedures for establishing the performance of air-to-air heat recovery components*. HRC categories, test types, and the temperature/humidity effectiveness and heat-balance correction formulas.
+- **[28]** EN 308:2022, *Heat exchangers, test procedures for establishing the performance of air-to-air heat recovery components*. Named for reference, for the HRC categories and the effectiveness convention used for reporting.
 - **[29]** EN 13053:2019, *Ventilation for buildings, air handling units, rating and performance for units, components and sections*.
 - **[30]** Kostowski E. (2000), *Przepływ ciepła*, Wydawnictwo Politechniki Śląskiej, Gliwice. The ε-NTU method, flow-arrangement correlations, and capacity-rate (C*) effects used in the heat-recovery asymmetry correction.
 
@@ -770,7 +771,7 @@ The list below is a selection of the most important sources, not the whole libra
 - **[34]** Perez R., Ineichen P., Seals R., Michalsky J., Stewart R. (1990), *Modeling Daylight Availability and Irradiance Components from Direct and Global Irradiance*. Solar Energy, Vol. 44(5), 271 to 289. The anisotropic sky model used for plane-of-array transposition.
 - **[35]** Liu B.Y.H., Jordan R.C. (1960), *The Interrelationship and Characteristic Distribution of Direct, Diffuse and Total Solar Radiation*. Solar Energy, Vol. 4(3), 1 to 19. The isotropic transposition alternative.
 - **[36]** Kasten F., Young A.T. (1989), *Revised Optical Air Mass Tables and Approximation Formula*. Applied Optics, Vol. 28(22), 4735 to 4738.
-- **[37]** Duffie J.A., Beckman W.A., *Solar Engineering of Thermal Processes*. Cover-glass optics and the incidence-angle modifier.
+- **[37]** Duffie J.A., Beckman W.A. (2013), *Solar Engineering of Thermal Processes*, 4th ed., John Wiley & Sons. Cover-glass optics and the incidence-angle modifier.
 - **[38]** IEC 61215 and IEC 61724-1. The NOCT definition, and the normalised photovoltaic yield quantities (performance ratio, specific yield) the PV results are reported in.
 - **[39]** Dobos A.P. (2014), *PVWatts Version 5 Manual*. NREL/TP-6A20-62641. The system loss budget.
 - **[40]** PVGIS, European Commission Joint Research Centre. The measured typical-meteorological-year source, and an independent yield cross-check.
