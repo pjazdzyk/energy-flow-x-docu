@@ -213,7 +213,7 @@ The hydraulics suite sizes ventilation ducts and piping against real fluid prope
 
 [<img src="assets/images/hydraulics-ducts.png" alt="Duct sizing calculator with heatmap" style="width:100%;">](https://energyflowx.com/hydraulics/duct-sizing-calculator)
 
-**Duct Sizing** and **Pipe Sizing** (both free) share one multi-criteria sizing engine that combines **manufacturer-based product data, common trade series, and generic geometry**, switchable on the fly. Pipe and tube dimensions are compiled from manufacturer datasheets. Series names follow common trade usage. Check the standard your project requires. It handles:
+**Duct Sizing** and **Pipe Sizing** (both free) share one multi-criteria sizing engine that combines **manufacturer-based product data, common trade series, and generic geometry**, switchable on the fly. It handles:
 
 - Circular and rectangular cross-sections,
 - Flow velocity and Reynolds number,
@@ -222,6 +222,12 @@ The hydraulics suite sizes ventilation ducts and piping against real fluid prope
 - Minor (local) pressure losses via loss coefficients (ζ),
 - Linear mass density derived from construction materials and insulation layers,
 - A master-data database of real market duct and pipe products, filterable by application, pressure class, leakage class, and material.
+
+**Pipe sources.** A **Source** selector in Pipe Sizing chooses where the dimensions come from, and Generic is the default.
+
+- **Generic series.** 13 pipe series (carbon, stainless, alloy and threaded steel, steel pressure pipe by outside diameter and wall, copper for water and heating, copper for refrigeration in metric and inch, PE-X, PP-R, PVC-U, CPVC, PE100) with dimensions compiled from manufacturer datasheets. Series names follow common trade usage. Standards appear only as attribution, in the form "Listed as X by Y". Check the standard your project requires.
+- **Manufacturer series.** 42 series from 26 manufacturers, each following one manufacturer's own catalogue exactly: the sizes and walls as printed, the product line as printed, the designation as printed, a link to the document and the date it was read. A manufacturer series is offered under the industry applications of its product family, adjusted only where its document names a use or limits the line. The sources are listed in [pipe-series-sources.md](pipe-series-sources.md), generated from the series index by `scripts/pipe_series_sources.py`. EnergyFlowX is not affiliated with, sponsored by, or endorsed by these manufacturers. The values are the manufacturer's printed catalogue values, so check them against the current catalogue and the delivered product.
+- **MCP.** An unfiltered pipe search in `search_conduit_catalog` returns the generic series only, and `manufacturers` selects the makers. `get_conduit_dimensions` answers a table over 60 rows with a size index instead and takes `size` to narrow it.
 
 On top of the numbers, a **heatmap chart** sweeps a full dimension series at once and adds a layer of insight a single result cannot give. It shows, across the whole catalogue range, exactly where your flow lands in the optimal-velocity band, so the acceptable sizes light up and the rejected ones do not. The acceptance criteria (velocity limit, aspect ratio, distribution-duct zone, pressure-drop budget) are all visible and adjustable, so the tool argues its case rather than just handing you a number.
 
@@ -367,9 +373,9 @@ A **self-shading tilt and azimuth optimiser** searches the orientation for you, 
 
 ### Wind, screening-level
 
-The **Wind** tool solves a **D3Q19 lattice-Boltzmann** flow field with large-eddy turbulence around the model, live on the GPU. Drive it with a logarithmic or Eurocode terrain-category inlet profile, or with a points table of your own heights and velocities. It paints velocity and pressure on resolve planes and reads values at probe points, for an early read on shelter, funnelling, and exposure between buildings.
+The **Wind** tool solves a **D3Q19 lattice-Boltzmann** flow field with large-eddy turbulence around the model, live on the GPU. Drive it with a logarithmic inlet profile, with a Eurocode inlet profile, or with a points table of your own heights and velocities. It paints velocity and pressure on resolve planes and reads values at probe points, for an early read on shelter, funnelling, and exposure between buildings.
 
-The solution runs on a thin slab at a capped Reynolds number, and the Knowledge page names the canonical benchmarks the solver is checked against and states where the line sits between a validated solver and a design-grade wind study. This is a screening aid for orientation and massing, not a certification.
+The solution runs on a thin slab at a capped Reynolds number, and the Knowledge page names the canonical benchmarks the solver is checked against and states where the line sits between a validated solver and a design-grade wind study. The Eurocode option is our own code implementing the mean-wind method of EN 1991-1-4, with the terrain category parameters that method uses. It is informational screening only, so check the National Annex for your country and your project requirement. This is a screening aid for orientation and massing, not a certification.
 
 [<img src="assets/images/el-wind.webp" alt="A vertical slice through a wind field around a site, coloured by speed, with the logarithmic inlet profile plotted beside it." style="width:100%;">](https://energyflowx.com/elements/knowledge/wind)
 
@@ -778,7 +784,7 @@ The list below is a selection of the most important sources, not the whole libra
 
 ### Wind screening
 
-- **[41]** EN 1991-1-4, *Eurocode 1: Actions on structures, Part 1-4: General actions, wind actions*. Referenced for its terrain categories, which drive the inlet profile option.
+- **[41]** EN 1991-1-4, *Eurocode 1: Actions on structures, Part 1-4: General actions, wind actions*. Listed as the standard whose mean-wind method our own code implements for the Eurocode inlet option, with the terrain categories and roughness factor that method uses. Check the National Annex for your country and your project requirement.
 - **[42]** Richards P.J., Hoxey R.P. (1993), *Appropriate boundary conditions for computational wind engineering models using the k-ε turbulence model*. J. Wind Eng. Ind. Aerodyn., Vol. 46-47, 145 to 153. The equilibrium atmospheric-boundary-layer requirement the inlet is checked against.
 - **[43]** Roshko A. (1954), *On the Development of Turbulent Wakes from Vortex Streets*. NACA Report 1191. The vortex-shedding benchmark the wind solver is validated on.
 
