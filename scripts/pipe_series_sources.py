@@ -5,21 +5,40 @@ The index (pipeSeriesIndex.generated.json) is produced by the pipe seed generato
 its evidence table. Nothing in the output is typed by hand: re-run this script after the index changes.
 
 Usage:
-  python3 scripts/pipe_series_sources.py INDEX.json            rewrite pipe-series-sources.md
-  python3 scripts/pipe_series_sources.py INDEX.json --check    exit 1 when the file is not what the index gives
+  python3 scripts/pipe_series_sources.py INDEX.json [MIGRATION_DIR]           rewrite pipe-series-sources.md
+  python3 scripts/pipe_series_sources.py INDEX.json [MIGRATION_DIR] --check   exit 1 when the page, or the counts
+                                                                               stated in README.md, differ
+
+MIGRATION_DIR is the backend folder core/src/main/resources/db/migration/all. With it, the generic pipe products
+are counted from the seeds: every conduit row of shape PIPE owned by the GENERIC manufacturer.
 """
 import json
+import re
 import sys
 from pathlib import Path
 
-OUT = Path(__file__).resolve().parent.parent / "pipe-series-sources.md"
+ROOT = Path(__file__).resolve().parent.parent
+OUT = ROOT / "pipe-series-sources.md"
+README = ROOT / "README.md"
+GENERIC_ROW = re.compile(
+    r"VALUES \('(PIPE_[A-Z0-9_]+)',\s*'PIPE',\s*'CIRCULAR',\s*"
+    r"\(SELECT id FROM manufacturer WHERE code = 'GENERIC'\),\s*'([^']*)'"
+)
+
+
+def generic_products(folder):
+    found = {}
+    for f in sorted(Path(folder).glob("V*.sql")):
+        for code, name in GENERIC_ROW.findall(f.read_text(encoding="utf-8")):
+            found[code] = name
+    return found
 
 
 def cell(text):
     return str(text).replace("|", "\\|").replace("\n", " ").strip()
 
 
-def render(index):
+def render(index, generic=None):
     makers = {m["code"]: m for m in index["makers"]}
     docs = index["documents"]
     series = index["series"]
@@ -42,6 +61,13 @@ def render(index):
         "| Manufacturer | Series | Product line as printed | Designation as printed | Document | Access date |",
         "| --- | --- | --- | --- | --- | --- |",
     ]
+    if generic:
+        at = out.index("| Manufacturer | Series | Product line as printed | Designation as printed | Document | Access date |")
+        out[at:at] = [
+            f"{len(generic)} generic pipe products ship besides these: "
+            + "; ".join(sorted(generic.values())) + ".",
+            "",
+        ]
     for s in series:
         m = makers[s["maker"]]
         texts = ", ".join(dict.fromkeys(d["text"] for d in s["designations"]))
@@ -63,9 +89,21 @@ def main(argv):
     if len(argv) < 2:
         print(__doc__)
         return 2
-    text = render(json.loads(Path(argv[1]).read_text(encoding="utf-8")))
+    args = [a for a in argv[1:] if not a.startswith("--")]
+    index = json.loads(Path(args[0]).read_text(encoding="utf-8"))
+    generic = generic_products(args[1]) if len(args) > 1 else None
+    text = render(index, generic)
     if "--check" in argv:
-        return 0 if OUT.exists() and OUT.read_text(encoding="utf-8") == text else 1
+        ok = OUT.exists() and OUT.read_text(encoding="utf-8") == text
+        readme = README.read_text(encoding="utf-8")
+        stated = [f"{len(index['series'])} series from {len({s['maker'] for s in index['series']})} manufacturers"]
+        if generic:
+            stated.append(f"{len(generic)} generic series")
+        for s in stated:
+            if s not in readme:
+                print(f"README.md does not state: {s}")
+                ok = False
+        return 0 if ok else 1
     OUT.write_text(text, encoding="utf-8")
     return 0
 

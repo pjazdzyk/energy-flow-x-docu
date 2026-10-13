@@ -6,6 +6,8 @@ EnergyFlowX is not affiliated with, sponsored by, or endorsed by any manufacture
 
 42 series from 26 manufacturers, 4098 printed size and wall rows, 31 documents. Documents read on 2026-10-13.
 
+14 generic pipe products ship besides these: Alloy Steel Steam Pipe; Aluminium tube, compressed air; CPVC Pipe; Carbon Steel Pipe; Copper ACR Tube, inch; Copper ACR Tube, metric; Copper Tube, water and heating; PE-X Pipe (solid wall); PE100 Gas Pipe; PP-R Pipe; PVC-U Pressure Pipe; Stainless Steel Pipe; Steel Pressure Pipe; Threaded Steel Tube.
+
 | Manufacturer | Series | Product line as printed | Designation as printed | Document | Access date |
 | --- | --- | --- | --- | --- | --- |
 | Cuprumfoma | CUPRUMFOMA_CU_ACR_M | FrostEn | Listed as EN 12735-1 and -2 by Cuprumfoma | [Copper hard drawn lengths FrostEn for air conditioning and refrigeration](https://www.cuprumfoma.it/en/copper-pipes-for-air-conditioning-and-refrigeration/production-of-copper-hard-drawn-lengths-for-air-conditioning-and-refrigeration/) | 2026-10-13 |
