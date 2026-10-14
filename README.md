@@ -515,9 +515,24 @@ Three things make it different from a sizing tool with a diagram on top:
 - **The fluid you actually run.** Glycol at the concentration you really use rather than the nearest table entry. Natural gas of a custom composition. Superheated single-phase steam from reference-grade formulations. The properties come from the same engine as the rest of the suite.
 - **Static, or watch it move.** Steady state when that is enough, and transient analysis with a configurable time step and device-activation criteria when it is not, with probes placed anywhere on the network reading exactly what you want to know.
 
-The module rollout starts with **compressed air**, then water networks, heating circuits, HVAC rooms and zones, and steam distribution. The solver underneath, `flow-symphony`, is already built and already runs the multi-fluid, thermally coupled cases described in the engine-room section below.
+What comes next is laid out in the roadmap below. It is a plan, not a promise, and the order may change. The solver underneath, `flow-symphony`, is already built and already runs the multi-fluid, thermally coupled cases described in the engine-room section below.
 
 The Hydronic *application*, the builder above, is **not released yet**. Its network solver can already be reached from an AI assistant, through the Hydronic tools on the members MCP server (section 8). The preview page at [energyflowx.com/hydronic](https://energyflowx.com/hydronic) explains the scope, the discipline coverage and the licensing intent, and takes waitlist signups for the Founders' Circle. If you design networks for a living, that page is also where to tell me what you actually need, while it is still cheap to change.
+
+### Roadmap
+
+This is the **planned** order of work. It has no dates, nothing in it is available today unless section 8 says so, and the order may change as I learn what engineers need.
+
+| Stage | Planned focus | What an engineer will be able to do |
+|---|---|---|
+| **Release 1** | Water systems | Describe, balance and verify heating and cooling water networks, steady and over time, with regulators and control valves, validation verdicts and a hand-over report pack. |
+| **Release 2** | Compressed air and gas services | Run the same analysis on compressible networks, with regulators and trip devices, for compressed-air plants, gas stations and steam stations. |
+| **Release 3** | Design | Size pipes and ducts, calculate heat loss in distribution, use more regulation devices, and work with product libraries that manufacturers can supply data to. |
+| **Release 4** | Plant | Model boilers, chillers and heat pumps, cooling towers and other heat-rejection equipment, and run weather-driven operation over time. |
+| **After that** | Specialist systems | Underfloor and slab heating and cooling, sprinkler hydraulics (a hydraulic calculation for the criteria you state), and district networks, added one by one. |
+| **Last** | The design builder | The canvas application described above, drawing every system the earlier stages cover. |
+
+Until the builder exists, the AI assistant route is how Hydronic is used: you describe the system in conversation and the assistant calls the Hydronic tools on the members MCP server and the REST interface.
 
 ---
 
