@@ -400,7 +400,7 @@ Some of what a study needs is never in the IFC file: a proposed extension, a nei
 
 ### Validation you can check yourself
 
-A **Validation** tab checks the analysis tools instead of asking you to trust them. The Solar module is validated three ways, each recomputed live in your browser on every visit: the sun position against NREL SPA published values and an independent ephemeris, the occlusion against a closed-form analytic shadow, and the end-to-end sun hours cross-checked against Ladybug Tools, a recognised open-source solar library, on a controlled scene. The clear-sky irradiation is cross-checked against PVGIS. We are not trying to copy any one program. We implement the same accepted physics independently and show that the answers land in the same place.
+A **Validation** tab checks the analysis tools instead of asking you to trust them. The Solar module is validated three ways, each recomputed live in your browser on every visit: the sun position against NREL SPA published values and an independent ephemeris, the occlusion against a closed-form analytic shadow, and the end-to-end sun hours compared with Ladybug Tools, a recognised open-source solar library, on a controlled scene. The clear-sky irradiation is cross-checked against PVGIS. We are not trying to copy any one program. We implement the same accepted physics independently and show that the answers land in the same place.
 
 The full reproduction (the scene file, the read points as a CSV, the reference scripts, the dependencies, and step-by-step instructions) is published in this repository under [validation-evidence](validation-evidence). Clone it and run it yourself.
 
