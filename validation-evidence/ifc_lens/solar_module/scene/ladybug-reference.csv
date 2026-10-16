@@ -1,6 +1,6 @@
 # Ladybug Tools direct sun hours on the test box, the machine-readable reference.
 # Scene: 20x10x15 m box, Warsaw 52.23N 21.01E, 20 March, whole day, 5-minute steps.
-# Produced by scripts/ladybug_reference.py (ladybug-core Sunpath, NREL based), 2026-06-20.
+# Produced by scripts/ladybug_reference.py (ladybug-core Sunpath routine), 2026-06-20.
 #
 # RECORDED IN SAMPLES. Sun hours can only be a whole number of time steps, so the sample count is
 # the exact quantity Ladybug computed and the hours are a presentation of it. The hours column is

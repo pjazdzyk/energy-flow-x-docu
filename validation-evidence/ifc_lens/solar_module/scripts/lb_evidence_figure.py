@@ -3,11 +3,11 @@ Ladybug Tools evidence figure: direct sun-hours on the comparison test box.
 
 Renders the same scene and 7 sample points as ladybug_reference.py, but as a
 figure for the IFC Lens Validation evidence card, computed with the Ladybug
-Tools Python library (`ladybug-core`, NREL-based Sunpath). This replaces the
-manual Grasshopper "Direct Sun Hours" run: same sun engine, same occlusion
-method, rendered by our own script (nothing reproduced from a vendor UI).
+Tools Python library (`ladybug-core`, AGPL-3.0, Sunpath routine). Same occlusion
+method as ladybug_reference.py, rendered by our own script (nothing reproduced
+from a vendor UI).
 
-NOTE: do NOT name this module `ladybug_*` — ladybug's __init__ auto-imports
+NOTE: do NOT name this module `ladybug_*`, because ladybug's __init__ auto-imports
 any top-level `ladybug*` module as an extension and crashes on it.
 
 Left panel : axonometric 3D view, opaque box + the 7 points coloured by
@@ -44,7 +44,7 @@ STEP_MIN = 5
 BOX_MIN = (-10.0, -5.0, 0.0)
 BOX_MAX = (10.0, 5.0, 15.0)
 
-# Ground sample points (X, Y, Z) — north of the box is where the shadow falls.
+# Ground sample points (X, Y, Z). North of the box is where the shadow falls.
 POINTS = {
     "G": (0.0, 6.0, 0.0),
     "A": (0.0, 8.0, 0.0),

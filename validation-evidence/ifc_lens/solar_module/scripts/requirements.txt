@@ -4,9 +4,10 @@
 #   python -m venv .venv && source .venv/bin/activate  (macOS / Linux)
 #   pip install -r requirements.txt
 #
-# ladybug-core      the Ladybug Tools sun engine (NREL based Sunpath). Computes
-#                   the reference sun positions and, with the ray vs box test in
-#                   ladybug_reference.py, the reference sun hours.
+# ladybug-core      the Ladybug Tools library (AGPL-3.0, used offline, not distributed
+#                   here). Its Sunpath routine gives the reference sun positions and,
+#                   with the ray vs box test in ladybug_reference.py, the reference
+#                   sun hours.
 # ladybug-geometry  geometry primitives ladybug-core depends on.
 # matplotlib        renders the evidence figure (lb_evidence_figure.py).
 # ifcopenshell      writes the test scene IFC (generate_box_ifc.py).

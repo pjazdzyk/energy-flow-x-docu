@@ -1,17 +1,17 @@
 # Elements, Solar module: inter-row shading evidence
 
-This folder holds a reproducible check of the ray-traced **inter-row shading** in the PV tool
-against a closed-form solution for the same geometry, derived independently and itself checked
-against [pvlib](https://pvlib-python.readthedocs.io/).
+This folder holds a reproducible comparison of the ray-traced **inter-row shading** in the PV tool
+with a closed-form solution for the same geometry, derived independently and itself compared
+with [pvlib](https://pvlib-python.readthedocs.io/).
 
-It is the third case in this module. The [direct sun hours evidence](../README.md) validates the
-shadow geometry against Ladybug Tools, the [clear sky evidence](../clear_sky_irradiation/README.md)
-validates the energy model layered on top of it, and this one validates the thing that decides
+It is the third case in this module. The [direct sun hours evidence](../README.md) compares the
+shadow geometry with Ladybug Tools, the [clear sky evidence](../clear_sky_irradiation/README.md)
+compares the energy model layered on top of it, and this one compares the thing that decides
 how close together rows can stand: how much of a collector its neighbour takes away.
 
 ---
 
-## 1. What is being validated, and why this one is worth doing
+## 1. What is being compared, and why this one is worth doing
 
 The tool ray-traces shadows through whatever geometry you loaded. That is the right approach for a
 real site, where the obstructions are buildings, terrain, trees and other arrays, and no closed form
@@ -21,14 +21,12 @@ case is constructed.
 For **one** arrangement, a regular grid of parallel rows on flat ground, the answer can be written
 down in closed form. So this folder builds that arrangement in the product, traces it, and compares.
 
-> A ray tracer that gets the one case with an analytic answer wrong is wrong everywhere. Getting it
-> right does not prove the general case, and this folder does not claim that it does. It removes a
-> whole class of error from the one geometry that a user is most likely to build, and it puts a
-> number on the residual instead of a reassurance.
+> A ray tracer that gets the one case with an analytic answer wrong cannot be relied on elsewhere.
+> Getting it right does not show the general case, and this folder does not claim that it does. It
+> puts a number on the residual for the one geometry that a user is most likely to build.
 
-**Row spacing is where this matters commercially.** The tool's spacing optimiser trades panel count
-against self-shading. If the shading model is biased, the recommended pitch is biased with it, and
-the error lands in the capital cost of a real array.
+**Row spacing is where this matters.** The tool's spacing optimiser trades panel count
+against self-shading. If the shading model is biased, the recommended pitch is biased with it.
 
 ---
 
@@ -39,8 +37,8 @@ standing behind an identical row. It is about fifteen lines of trigonometry, der
 geometry rather than ported from anywhere, and the full derivation is written out in the file so it
 can be checked rather than taken on faith. It shares no code with the product and imports nothing.
 
-That makes it clean-room. It also means an error in our algebra would go straight into the oracle,
-and the oracle would then validate the ray tracer against our own mistake. So the oracle is itself checked:
+That keeps it independent of the product. It also means an error in our algebra would go straight into the oracle,
+and the oracle would then agree with the ray tracer for the wrong reason. So the oracle is itself compared:
 
 ```text
 $ python scripts/pvlib_crosscheck.py
@@ -50,14 +48,14 @@ axis_azimuth=  270  rotation= -30.0  max|difference| = 8.882e-16   mean = 1.034e
 PASS: the two derivations agree to 8.882e-16, which is floating-point noise.
 ```
 
-against `pvlib.shading.shaded_fraction1d`, which implements Anderson and Jensen (2024) and is
-maintained by a different community. pvlib is BSD-3-Clause and is used here as a reference
-implementation, not vendored.
+with `pvlib.shading.shaded_fraction1d`, which implements Anderson and Jensen (2024) and is
+maintained by a different community. pvlib is BSD-3-Clause, is used here as a reference
+implementation, is not vendored, and is not affiliated with EnergyFlowX.
 
 Both of pvlib's equivalent sign conventions are checked, because picking the one that happened to
 agree would be the kind of fitting this file exists to rule out.
 
-That agreement says the algebra is right. It says nothing about the product,
+That agreement shows that the two derivations coincide. It says nothing about the product,
 because neither implementation is the product. The number that matters is in section 4.
 
 ---
@@ -73,7 +71,7 @@ because neither implementation is the product. The number that matters is in sec
 | Pitch | 2.5 m row to row |
 | Sun | 44 positions: elevations 8 to 50 degrees at azimuths 150, 165, 180 and 210. Directions are set explicitly rather than derived from a date, so the case depends on no ephemeris and has no timezone to get wrong |
 | Ours | The product's own ray tracer, through the same BVH and the same face sampler a real run uses |
-| Reference | `scripts/row_shading_oracle.py`, cross-checked against pvlib |
+| Reference | `scripts/row_shading_oracle.py`, compared with pvlib |
 
 Everything in [`scene/engine-vs-closed-form.csv`](scene/engine-vs-closed-form.csv): 528 rows, every
 sun position at every quality setting and both panel thicknesses.
@@ -113,13 +111,14 @@ ray tracer shades slightly more, and refinement does not remove it. The orange c
 out at about 0.03 while the dark one keeps falling. Once the grid is fine enough to resolve the
 shadow edge (21 sub-samples and above), the difference at the built thickness is never negative
 at any of the 44 sun positions. The tool never claims less shade than the idealisation. It claims
-slightly more, and it is right to.
+slightly more, as a panel of that thickness would.
 
 **At the quality the product ships**, the difference straddles zero (worst case -0.039 to
 +0.082 at 7 sub-samples) because the quantisation noise is larger than the thickness bias and runs
-both ways. It is noise around the right answer, not a bias, and it averages out over the thousands
+both ways. It is noise around the closed-form value, not a bias, and it averages out over the thousands
 of sun positions in an annual run. **Read the per-position numbers as a bound on a single instant,
-never as an error on an annual yield.**
+never as an error on an annual yield.** The results are for review by a professional engineer, who
+remains responsible, and are not a design certification.
 
 ---
 
@@ -132,7 +131,7 @@ never as an error on an annual yield.**
   ground-reflected terms are checked separately, against their own closed forms, in the product's
   live validation report.
 - **Nothing about what shading costs in energy.** The step from a shaded fraction to a lost kilowatt
-  hour runs through the bypass-diode model, the cell temperature and the inverter, each validated
+  hour runs through the bypass-diode model, the cell temperature and the inverter, each compared
   on its own. A correct shaded fraction is necessary, not sufficient.
 - **Nothing about end-of-row panels.** The measurement is taken at the centre of the array on
   purpose. A panel at the end of a row is lit from the side in a way an infinite row is not, and the

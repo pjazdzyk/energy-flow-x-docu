@@ -9,7 +9,7 @@ dependency on the other workspace projects.
   says so, and a claim must match what the code does today.
 - Legal and IP rules apply to all text: follow the `legal-ip-policy` skill (which sources may be
   named, how standards are cited, clean-room wording) before adding or editing references or citations.
-- `validation-evidence/` holds re-runnable proofs (scene files, reference scripts, expected figures).
+- `validation-evidence/` holds re-runnable comparisons (scene files, reference scripts, expected figures).
   Change a figure only by re-running its script, never by editing the number by hand.
 - The repo was named `energy-flow-x-demo` until 2026-07; use the current name in links (the UI's
   `publicRepoLinks.test.js` fails the build on the old one).

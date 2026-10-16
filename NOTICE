@@ -7,12 +7,13 @@ How to cite:
 
     Piotr Jażdżyk (2026). EnergyFlowX [Computer software]. Synerset. Retrieved from https://energyflowx.com
 
-EnergyFlowX is not affiliated with, sponsored by, or endorsed by any manufacturer, standards body or data provider named in this repository.
+EnergyFlowX is not affiliated with, sponsored by, or endorsed by any manufacturer, standards body, software product, tool or data provider named in this repository. Product and organisation names belong to their owners and are named only to describe a comparison, compatibility or an attribution.
 
 Third-party material and credits:
 
-- Ladybug Tools (AGPL-3.0) is used offline as a solar reference. Only its output data and a figure of our own are published here. No Ladybug code is distributed.
-- PVGIS, European Commission Joint Research Centre: clear-sky irradiation reference values, credited beside the data.
+- Ladybug Tools (AGPL-3.0) is used offline as a solar comparison. Only its output data and a figure of our own are published here. No Ladybug code is distributed.
+- PVGIS, European Commission Joint Research Centre: clear-sky irradiation values used for comparison, credited beside the data.
+- pvlib (BSD-3-Clause) is used offline by a comparison script. It is not distributed here.
 - PCERT Sample Scene (IFC 4.0.2.1), (c) buildingSMART International, shown unmodified in screenshots, under CC BY 4.0.
 - Map data (c) OpenStreetMap contributors, ODbL.
 - Manufacturer catalogue values listed in pipe-series-sources.md belong to their makers and are shown as printed, with the document link and access date.

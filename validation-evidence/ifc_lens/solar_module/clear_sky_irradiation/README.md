@@ -1,26 +1,26 @@
 # Elements, Solar module: clear sky irradiation evidence
 
-This folder holds a reproducible cross check of the Elements **Irradiation** metric, the optional
-kWh/m² figure the Solar tool can report alongside direct sun hours, against an independent
-clear sky model published by the EU Joint Research Centre.
+This folder holds a reproducible comparison of the Elements **Irradiation** metric, the optional
+kWh/m² figure the Solar tool can report alongside direct sun hours, with the clear sky
+irradiance published by the EU Joint Research Centre in PVGIS.
 
 It is the companion to the [direct sun hours evidence](../README.md) one level up. That case
-validates the geometry. This one validates the energy model layered on top of it.
+compares the geometry. This one compares the energy model layered on top of it.
 
 ---
 
-## 1. What is being validated, and what is not
+## 1. What is being compared, and what is not
 
 The Irradiation metric estimates **clear sky potential**: how much solar energy a surface would
 receive under a cloudless sky, from a weather free model. It is not measured yield, it is not a
 TMY based estimate, and it does not account for cloud. The tool labels it that way on every view,
 and this folder does not claim otherwise.
 
-The model is **Bird and Hulstrom (1981)**, a published, public domain clear sky model from
-SERI (now NREL). Two separate things have to be right for the reported number to be right:
+The model is **Bird and Hulstrom (1981)**, a published clear sky model from
+SERI (now NREL), freely available with attribution as published. Two separate things have to be right for the reported number to be right:
 
 1. **The instantaneous model.** Does the code reproduce Bird and Hulstrom's own worked table?
-   That is checked to the decimal in the product's live Validation report and in its unit tests.
+   That is compared with the published table, within the stated tolerance, in the product's live Validation report and in its unit tests.
    It is not what this folder is about, because a model agreeing with its own source paper is a
    port check, not an independent one.
 2. **The integration.** The number a user sees is a whole year accumulated. Integrating a correct
@@ -36,8 +36,8 @@ SERI (now NREL). Two separate things have to be right for the reported number to
 irradiance comes from the **McClear** model, using the CAMS aerosol climatology. Bird and McClear
 are different formulations with different aerosol treatments, so:
 
-> Two independent clear sky models should land within a few percent of each other, **not** match to
-> the decimal. A decimal match between Bird and McClear would be the tell of a fudged comparison,
+> Two different clear sky models should land within a few percent of each other, **not** match
+> exactly. An exact match between Bird and McClear would be the tell of a fudged comparison,
 > not a good result.
 
 The percentage is therefore the weaker half of this evidence. **The stronger claim is the
@@ -71,19 +71,23 @@ Warsaw (52.23 N, 119 m), Madrid (40.42 N, 667 m) and Rome (41.90 N, 21 m).
 | Madrid (40.42, −3.70, 667 m) | 2080.8 kWh/m² | 2032.4 kWh/m² | **−2.3 %** | 1687 – 2147 | yes |
 | Rome (41.90, 12.50, 21 m) | 1953.7 kWh/m² | 1981.8 kWh/m² | **+1.4 %** | 1641 – 2092 | yes |
 
-Two independent clear sky models agree to within about **3 %** at every site, and the PVGIS value
+The two models differ by at most **2.8 %** at the three sites, and the PVGIS value
 falls inside our Clean to Hazy band in every case. The residual is the expected spread of two
 different clear sky formulations, and of our single Clarity knob against PVGIS's location specific
 aerosol climatology. It is not an error term.
 
+This is a comparison of two models at three sites. It is not an energy yield assessment and not a
+design certification, and the results are for review by a professional engineer, who remains
+responsible.
+
 ### The integration step is checked, not assumed
 
-The year integrates at an hourly step for cost. A coarse step chosen for speed and never verified
+The year integrates at an hourly step for cost. A coarse step chosen for speed and never checked
 is how an integration error hides, so the product's suite carries the hourly total
 against a ten minute one as a row of its own: they agree to about **0.002 %**, four orders of
 magnitude inside the percent level agreement this comparison is about.
 
-### Re-verified
+### Re-run
 
 Recorded **2026-06-21**. Both sides were re-run on **2026-09-07**: the PVGIS reference was
 re-fetched from the live service and came back identical to the recorded figures, and our side is
@@ -183,9 +187,9 @@ clear_sky_irradiation/
 ## 7. Licensing and attribution
 
 - **Bird, R. E. and Hulstrom, R. L. (1981)**, *A Simplified Clear Sky Model for Direct and Diffuse
-  Insolation on Horizontal Surfaces*, SERI/TR-642-761. Public domain (US DOE / SERI, now NREL).
-- **PVGIS**, European Commission Joint Research Centre. Free and open, named here for nominative
-  reference only. It is used for this one off comparison. No PVGIS data is bundled into or depended
+  Insolation on Horizontal Surfaces*, SERI/TR-642-761. Freely available with attribution as published (SERI, now NREL).
+- **PVGIS**, European Commission Joint Research Centre. Free and open, named here for comparison
+  only and not affiliated with EnergyFlowX. It is used for this one off comparison. No PVGIS data is bundled into or depended
   on by the application, and nothing of its source, interface or documentation is reproduced.
 
 EnergyFlowX, Elements and the Solar tool are the property of Synerset. See the repository root

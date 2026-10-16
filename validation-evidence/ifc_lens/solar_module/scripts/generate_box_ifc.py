@@ -184,7 +184,7 @@ box = f.create_entity(
 # --- flat ground: a ZERO-THICKNESS 120 x 120 m light-gray surface at Z=0, so the
 # heatmap has a terrain to render on. SAFE for the validation now: the point
 # reader RAY-TRACES sun-hours against the building only (glazing + ground-coplanar
-# faces excluded), so the ground plane does NOT change any probed value — it is a
+# faces excluded), so the ground plane does NOT change any probed value. It is a
 # pure visual canvas. Zero thickness keeps the scene minimum exactly at Z=0 so the
 # ground-sensor grid sits on the surface (no self-shadow from a slab underside). ---
 GROUND = 120.0
@@ -231,6 +231,6 @@ OUT = "solar-test-box.ifc"
 f.write(OUT)
 print(
     f"wrote {OUT}: box X[-10,10] Y[-5,5] Z[0,15] m on a {GROUND:.0f}x{GROUND:.0f} m flat "
-    f"light-gray ground at Z=0 (visual only — points ray-trace the box), "
+    f"light-gray ground at Z=0 (visual only, points ray-trace the box), "
     f"site 52.23N 21.01E, true north +Y"
 )

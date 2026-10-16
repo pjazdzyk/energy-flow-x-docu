@@ -1,48 +1,47 @@
-# Elements, Solar module validation evidence
+# Elements, Solar module: comparison evidence
 
-This folder holds a reproducible validation of the **EnergyFlowX Elements Solar tool**. It
-documents how the tool computes direct sun hours, and shows that the result lands in the same
-place as an independent, recognized reference (Ladybug Tools) on a controlled scene that anyone
-can rebuild.
+This folder holds a reproducible comparison of the **EnergyFlowX Elements Solar tool** with other
+references. It documents how the tool computes direct sun hours, and records what Ladybug Tools, an
+open-source solar library, gives on a controlled scene that anyone can rebuild, with the observed
+differences.
 
 You should be able to take the files here, run the same check yourself, and confirm the numbers
 rather than take our word for it.
 
 ---
 
-## 1. What is being validated
+## 1. What is being compared
 
 The Elements Solar tool answers a geometric question: for a given location, date and building
 geometry, how many hours of direct sun does a point receive over the day. It is a comparative
 siting and overshadowing aid. It does not compute measured energy yield or daylight factor.
 
-We validate it on three independent legs, each against a recognized method or source:
+We compare it on three legs, each with a published method or an independent implementation:
 
 1. **Solar position.** Where the sun is in the sky (altitude and azimuth) through the day. The
    tool uses the NOAA solar position algorithm (Meeus, *Astronomical Algorithms*). This is
-   cross checked against NREL SPA reference values and an independent VSOP87 ephemeris inside
-   the live in app Validation report.
+   compared with the published NREL SPA worked example and an independent VSOP87 ephemeris
+   inside the live in app Validation report.
 2. **Occlusion.** Whether building geometry blocks the ray from a point to the sun. The live
    heatmap rasterises it with a GPU shadow map. The unit tests check a ray traced oracle (Moller
    Trumbore ray triangle intersection) against a closed form analytic shadow (the gnomon
    relation), and the Solar engine self test checks the shadow map against that oracle.
 3. **End to end sun hours.** The two legs combined, counting lit time samples over the day.
-   This is the comparison documented in this folder, against Ladybug Tools.
+   This is the comparison documented in this folder, with Ladybug Tools.
 
 The Solar tool can also report an optional **Irradiation** figure in kWh/m², a clear sky potential
 from a weather free model. That is a different claim with a different reference, so it has its own
-case: [clear_sky_irradiation](clear_sky_irradiation/), cross checked against PVGIS (EU JRC). This
+case: [clear_sky_irradiation](clear_sky_irradiation/), compared with PVGIS (EU JRC). This
 folder is about the geometry.
 
 The PV tool adds a third claim on top of both: how much of a panel the row in front of it takes
 away, which is what sets how close together rows can stand. That has its own case as well,
 [row_shading](row_shading/), against a closed form for the one arrangement that has one.
 
-Ladybug Tools is an open source solar analysis library widely used in the AEC community. Its
-sun engine is built on NREL Sunpath. Comparing against it is a cross check between two
-independent implementations of the same accepted physics. We are not
-trying to be identical to Ladybug. We are showing that our independent methodology produces the
-same answer to within the spread expected of two valid implementations.
+Ladybug Tools is an open source solar analysis library (AGPL-3.0). It is named for comparison
+only and is not affiliated with EnergyFlowX. The comparison sets two independent implementations
+side by side on one scene and records where they differ. We are not trying to be identical to
+Ladybug.
 
 ---
 
@@ -104,15 +103,18 @@ error, which is 4 % of a one sample tolerance, and on the one point that differs
 
 Six of seven points are identical. The seventh, point A, differs by exactly one 5 minute sample.
 
-**Why A and only A.** A sits right on the moving shadow edge. Whether one particular 5 minute sample
-lands on the lit or the shaded side of that edge is decided by the sun position to a fraction of a
-degree. Elements uses the NOAA solar equations, Ladybug uses NREL SPA. They differ by about 0.01
-degrees, enough to flip A's one boundary sample, and nothing else. The other six points are either
-fully open or deeply shaded, so a few seconds never flips them. One sample is therefore the finest
-agreement two independent solar position algorithms can be expected to reach at a shadow edge, and
-it is the tolerance the automated check uses. A 1 minute step shrinks the residual further.
+This is a comparison of two programs on one scene. It is not a design certification, and the
+results are for review by a professional engineer, who remains responsible.
 
-### Re-verified, and now automated
+**Why A and only A.** A sits right on the moving shadow edge. Whether one particular 5 minute sample
+lands on the lit or the shaded side of that edge depends on the sun position to a fraction of a
+degree, and the two tools compute the sun position with independent routines. We have not traced
+the exact source of the difference. The other six points are either fully open or deeply shaded, so
+they are not sensitive to it. One sample is the difference this comparison observes at a shadow
+edge, and it is the tolerance the automated check uses. A 1 minute step shrinks the residual
+further.
+
+### Re-run, and now automated
 
 This comparison was originally produced by hand in June 2026. It was re-run on 2026-09-07, after
 three months of engine work including a full audit that touched the solar and occluder paths, and
@@ -132,8 +134,8 @@ sign, for example, fails it immediately.
 The same run also cross checks the occlusion step a second way: the ray versus triangle tracer is
 compared against an independent slab method (ray/AABB interval clipping, sharing no code) over a
 grid of 528 ground points across the whole shadow sweep, where exact agreement is required. Seven
-points show the shadow is about the right size in seven places. The grid shows it is the right
-shape.
+points show the shadow is about the right size in seven places. The grid compares its shape,
+and exact agreement was required and observed.
 
 ### Figures
 
@@ -164,9 +166,8 @@ python scripts/ladybug_reference.py     # prints the reference sun hours at the 
 python scripts/lb_evidence_figure.py    # renders figures/ladybug-direct-sun-hours.png
 ```
 
-`ladybug_reference.py` uses the Ladybug `Sunpath` engine for the sun positions (the same NREL
-based engine the Grasshopper "Direct Sun Hours" component uses) and a ray versus axis aligned
-box test for the occlusion.
+`ladybug_reference.py` uses the Ladybug `Sunpath` routine for the sun positions and a ray
+versus axis aligned box test for the occlusion.
 
 It prints the reference **in samples**, then the same rows in the exact format of
 `scene/ladybug-reference.csv`, so you can diff your run against the committed reference rather
@@ -181,11 +182,11 @@ It also carries a control point 280 m from the box, which must see the whole day
 shades a point it cannot possibly reach, the script stops rather than printing a reference nobody
 should use.
 
-If you prefer the full visual Grasshopper route, the equivalent component graph is: **Sunpath**
+If you prefer a visual Grasshopper route, a comparable component graph is: **Sunpath**
 (location from the IFC site, 20 March, whole day, 5 minute step) → **Direct Sun Hours**, with the
 box as the context geometry and the seven points from `scene/solar-test-points.csv` as the analysis
 points. Set the sun vectors from the same Sunpath component, so the sun positions are identical to
-the script's. Either route gives the numbers in the table above.
+the script's. The script route gives the numbers in the table above.
 
 ### B. EnergyFlowX Elements, headless (no browser, no account)
 
@@ -254,16 +255,16 @@ solar_module/
 ## 6. Licensing and attribution
 
 The reference figures and numbers are computed by the scripts in this folder from the
-**Ladybug Tools** open source Python library (`ladybug-core`), which is itself based on NREL
-Sunpath. Ladybug Tools is named here for nominative reference only. Nothing of its source,
-user interface, data or documentation is reproduced. The numerical agreement reflects correct
+**Ladybug Tools** open source Python library (`ladybug-core`, AGPL-3.0). It is used offline and no
+Ladybug code is distributed here. Ladybug Tools is named here for comparison only and is not
+affiliated with EnergyFlowX. Nothing of its source, user interface or documentation is reproduced. The numerical agreement reflects correct
 shared physics, not copied content.
 
-- **Ladybug Tools** <https://www.ladybug.tools> (open source).
+- **Ladybug Tools** <https://www.ladybug.tools> (open source, AGPL-3.0).
 - **NREL Solar Position Algorithm**, Reda I. and Andreas A. (2004), *Solar Energy* 76(5),
-  577 to 589.
+  577 to 589, named for comparison only.
 - **NOAA solar position equations**, after Meeus J., *Astronomical Algorithms*.
 
+NREL, PVGIS and the other names above belong to their owners.
 EnergyFlowX, Elements and the Solar tool are the property of Synerset. See the repository
 root for the full license and citation terms.
-</content>

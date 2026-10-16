@@ -40,10 +40,10 @@ ASSUMPTIONS, all of which the ray tracer drops:
   - the ground is flat and the rows are parallel and evenly spaced
   - only the immediately preceding row can shade (true for the pitches used in practice)
 
-Verified against pvlib's shaded_fraction1d (BSD-3-Clause) to machine precision by
-pvlib_crosscheck.py in this folder. Two independent derivations agreeing to 1e-16 is a
-statement about the algebra; the agreement with the ray tracer, reported in the README,
-is the statement about the product.
+Compared with pvlib's shaded_fraction1d (BSD-3-Clause) by pvlib_crosscheck.py in this
+folder, where the largest difference is at machine precision. Two independent derivations
+agreeing to 1e-16 is a statement about the algebra. The comparison with the ray tracer,
+reported in the README, is the statement about the product.
 
 No dependencies beyond the standard library. Run it directly to print the table used in
 the README:

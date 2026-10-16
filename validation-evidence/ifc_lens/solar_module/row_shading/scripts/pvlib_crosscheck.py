@@ -1,9 +1,9 @@
 """Check the closed form in row_shading_oracle.py against pvlib, an independent implementation.
 
 WHY THIS EXISTS. row_shading_oracle.py is a few lines of trigonometry we derived ourselves.
-That makes it clean-room, which is the point, but it also means an error in the algebra
-would go straight into the oracle and the oracle would then "validate" the ray tracer
-against our own mistake. So the oracle is itself checked, against pvlib's
+That keeps it independent of the product, which is the point, but it also means an error in the algebra
+would go straight into the oracle and the oracle would then agree with the ray tracer
+for the wrong reason. So the oracle is itself checked, against pvlib's
 `shading.shaded_fraction1d`, which implements Anderson and Jensen (2024) and is maintained
 by a different community entirely.
 

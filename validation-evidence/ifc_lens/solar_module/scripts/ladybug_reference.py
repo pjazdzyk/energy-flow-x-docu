@@ -2,18 +2,17 @@
 Ladybug Tools reference: direct sun-hours on the comparison test box.
 
 Computes the reference values for the IFC Lens vs Ladybug comparison documented
-in ../README.md, using the Ladybug Tools Python library (`ladybug`) for the sun
-positions — the same Sunpath / NREL-based engine the Grasshopper "Direct Sun
-Hours" component uses. Opaque-box shadowing is a ray / axis-aligned-box
-intersection (the Direct Sun Hours method = sun vectors from Sunpath +
-geometric occlusion).
+in ../README.md, using the Ladybug Tools Python library (`ladybug`, AGPL-3.0) and
+its Sunpath routine for the sun positions. Opaque-box shadowing is a ray /
+axis-aligned-box intersection (sun vectors from Sunpath plus geometric
+occlusion). Ladybug Tools is named for comparison only.
 
 REPORTS SAMPLES FIRST, hours second, and that is the whole point of this script's
 output shape. Both tools march the same 5-minute grid, so every sun-hour either
 can report is a whole number of samples; the hours are a presentation of that
 integer. Printing only hours (as this did) means anyone reproducing the reference
 has to divide by 1/12 h and round to recover what was actually computed, against a
-tolerance of ONE sample — and a two-decimal transcription of a sample count is
+tolerance of ONE sample, and a two-decimal transcription of a sample count is
 already 4% of that budget. ../scene/ladybug-reference.csv records the integers, so
 this script must be able to produce them.
 
@@ -35,7 +34,7 @@ STEP_MIN = 5
 BOX_MIN = (-10.0, -5.0, 0.0)
 BOX_MAX = (10.0, 5.0, 15.0)
 
-# Ground sample points (X, Y, Z) — north of the box is where the shadow falls.
+# Ground sample points (X, Y, Z). North of the box is where the shadow falls.
 # Keyed by the SAME single-letter ids used in ../scene/solar-test-points.csv,
 # ../scene/ladybug-reference.csv and the README table, so the four line up row for
 # row without anyone having to match "G (0,6)  1m N of face" to "G" by eye.
