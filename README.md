@@ -28,7 +28,7 @@ To readers unfamiliar with fluid mechanics and thermodynamics, the calculation f
 
 # TABLE OF CONTENTS
 
-1. [The mission](#1-the-mission)
+1. [Use and cost](#1-use-and-cost)
 2. [Why engineers use EFX](#2-why-engineers-use-efx)
 3. [Fluids we support](#3-fluids-we-support)
 4. [HVAC processes](#4-hvac-processes)
@@ -54,18 +54,10 @@ To readers unfamiliar with fluid mechanics and thermodynamics, the calculation f
 
 ---
 
-## 1. THE MISSION
-
-**Liberate engineering calculations.**
-
-Every law of physics was won by brilliant minds who dedicated their lives to chasing the truth, and that knowledge belongs to all of us. It is one of the most precious foundations of our civilisation. Yet the software built on it often sits locked behind licenses that bleed engineers of hundreds to thousands every year, quietly devouring the net margins of the very firms that keep the world running.
-
-Not anymore. Engineers, a heavy cavalry is riding to your aid. Brace, or join the charge.
+## 1. USE AND COST
 
 - **Free to use.** Some tools stay free for good, others are free for testing, and which is which may change over time. Heavy use may be rate limited. In return, please credit and cite the work, share it, and report bugs.
-- **Honestly affordable.** A few advanced applications may be paid in the future, or offer limited free access, and some require an active account for testing. Any future pricing will be elastic, affordable, and friendly.
-
-Breaking a monopoly takes a movement. Your trust, your feedback, and spreading the word are what keep calculations free. Use the tools, and tell another engineer.
+- **Paid options.** A few advanced applications may be paid in the future, or offer limited free access, and some require an active account for testing.
 
 > _Amicus Plato, sed magis amica veritas._
 
