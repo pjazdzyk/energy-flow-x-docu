@@ -634,6 +634,25 @@ Register a free account on [energyflowx.com](https://energyflowx.com) and explor
 
 Every result you see comes from a deterministic algorithm evaluating an established scientific equation, not from a language model predicting a plausible-looking value. There are no LLMs in the calculation path. When a number underpins a building, a coil, or a pipe run, you want a documented equation of state solved to a stated tolerance, with its method and source named. The engine is deterministic, so the same inputs give the same numbers on the same version, and each result names the published source of its method. Results are for review by a professional engineer, who remains responsible for the design.
 
+### Every result carries its version
+
+Every result states which version of the software produced it, so a number can be traced later.
+
+- **The stamp.** Each response of the assistant (MCP) tools carries a `meta.stamp` with the software version, the version of each engine (eos-engine, hvac-engine-pro, flow-symphony, solar-engine, numenor-math and unitility), the UTC time of the computation, the review sentence and the address of the Terms of Use. The hydraulic results of the REST service carry the same stamp in the body.
+- **Headers.** Every other REST response carries the headers `X-EFX-Software` and `X-EFX-Engines`, and the standard `Date` header gives the time.
+- **Build information.** `GET /energy-flow-x/api/build-info` is public. It lists the service version, the version of each engine and any tool that is switched off.
+- **Export record.** Each file of a Hydronic report carries one result record with the software version, the engine versions, the UTC time and the SHA-256 digests of the inputs and of the outputs, followed by the review sentence. Two reports of the same design give the same digests, and the record does not need the inputs to be kept on the server.
+
+The stamp states which version produced a number. It does not make the number right for your case, and you stay responsible for checking it.
+
+### Known issues and result-affecting defects
+
+The public page [energyflowx.com/known-issues](https://energyflowx.com/known-issues) lists known issues. A defect that changes a number a user may have relied on is tagged as result-affecting, with the date and the tools it touches. The same tag is used in the changelog of the assistant plugin. The service can also switch one tool off with a message, so that it does not give results while a defect is open. The REST service then answers 503 with that message and the assistant tools answer with a tool error that carries it.
+
+### Terms and acceptance
+
+The Terms of Use have a version. A new account accepts the current version at registration, and an existing account accepts a new version at its next sign-in after a change. The version and the time of acceptance are stored with the account. An optional declaration that you use EnergyFlowX in your professional activity can be recorded with it. Before the first export, a one-time professional acknowledgement is asked for and stored with the account. When the Terms change in a material way, we aim to tell account holders by e-mail.
+
 ---
 
 ## 20. LICENSING, CITATION, AND ATTRIBUTION
