@@ -1,6 +1,6 @@
 # License
 
-This project, *Energy Flow X*, including all its content, documentation, diagrams, and descriptions, is the intellectual property of **Piotr Jazdzyk, MSc Eng** and is subject to copyright protections.
+This project, *EnergyFlowX*, including all its content, documentation, diagrams, and descriptions, is the intellectual property of **SYNERSET Piotr Jażdżyk** and is subject to copyright protections.
 
 ##  Commercial Use Notice
 
@@ -22,13 +22,17 @@ However, you **may not**:
 
 ## Attribution
 
-When referencing *Energy Flow X* or its author in external materials, please use the following citation:
+When referencing *EnergyFlowX* or its author in external materials, please use the following citation:
 
-> "Energy Flow X – HVAC Engineer's Toolkit", by Piotr Jazdzyk, MSc Eng, https://energyflowx.com
+> Piotr Jażdżyk (2026). EnergyFlowX [Computer software]. Synerset. Retrieved from https://energyflowx.com
+
+## Scope
+
+This licence covers the documentation in this repository. It does not cover the EnergyFlowX service, whose terms of use are published at https://energyflowx.com. Third-party data named in the NOTICE file stays under its own terms.
 
 ## Copyright and Disclaimer
 
-© 2022–2025 Piotr Jazdzyk. All rights reserved.
+© 2022-2026 SYNERSET Piotr Jażdżyk. All rights reserved.
 
-This documentation is provided **as-is**, without warranty of any kind. The author shall not be held liable for any damage, direct or indirect, arising from the use or misuse of this material.
+This documentation is provided **as-is**, without warranty of any kind. The rightsholder shall not be held liable for any damage, direct or indirect, arising from the use or misuse of this material.
 

@@ -1,34 +1,20 @@
-# License
+EnergyFlowX documentation
+Copyright 2022-2026 SYNERSET Piotr Jażdżyk
 
-This project, *Energy Flow X*, including all its content, documentation, diagrams, and descriptions, is the intellectual property of **Piotr Jazdzyk, MSc Eng** and is subject to copyright protections.
+This repository documents EnergyFlowX. The licence for the documentation is in the LICENSE file.
 
-##  Commercial Use Notice
+How to cite:
 
-This project is intended for **commercial use by its author only**.
-Any **unauthorized commercial usage**, redistribution, sublicensing, or offering of any part of this work, including its documentation, as part of a paid product or service **is strictly prohibited**.
+    Piotr Jażdżyk (2026). EnergyFlowX [Computer software]. Synerset. Retrieved from https://energyflowx.com
 
-## Open Documentation Policy
+EnergyFlowX is not affiliated with, sponsored by, or endorsed by any manufacturer, standards body or data provider named in this repository.
 
-While this repository is public for **transparency, demonstration, and discussion purposes**, this does not imply that the project is open source or free to reuse.
-You are welcome to:
-- Read and study the documentation,
-- Open discussions or suggestions via GitHub Issues,
-- Cite the project with proper attribution (see below).
+Third-party material and credits:
 
-However, you **may not**:
-- Use any part of this project for commercial purposes without explicit written permission,
-- Copy or replicate substantial parts of the design or content,
-- Host the content or assets on your own service.
+- Ladybug Tools (AGPL-3.0) is used offline as a solar reference. Only its output data and a figure of our own are published here. No Ladybug code is distributed.
+- PVGIS, European Commission Joint Research Centre: clear-sky irradiation reference values, credited beside the data.
+- PCERT Sample Scene (IFC 4.0.2.1), (c) buildingSMART International, redistributed unmodified under CC BY 4.0.
+- Map data (c) OpenStreetMap contributors, ODbL.
+- Manufacturer catalogue values listed in pipe-series-sources.md belong to their makers and are shown as printed, with the document link and access date.
 
-## Attribution
-
-When referencing *Energy Flow X* or its author in external materials, please use the following citation:
-
-> "Energy Flow X – HVAC Engineer's Toolkit", by Piotr Jazdzyk, MSc Eng, https://energyflowx.com
-
-## Copyright and Disclaimer
-
-© 2022–2025 Piotr Jazdzyk. All rights reserved.
-
-This documentation is provided **as-is**, without warranty of any kind. The author shall not be held liable for any damage, direct or indirect, arising from the use or misuse of this material.
-
+The full list of data sources and licences is in section 22 of README.md and at https://energyflowx.com/third-party-notices.txt.
