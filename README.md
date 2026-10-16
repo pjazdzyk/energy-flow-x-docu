@@ -611,7 +611,7 @@ The security measures are:
 - Session-based authentication using HTTP-only cookies with XSRF protection,
 - Data minimisation by design, collecting only what the service needs, as described in the privacy policy,
 - HTTPS in strict mode across every page,
-- Passwords and API keys stored hashed, and other sensitive account data encrypted, as the Privacy Policy describes,
+- Passwords and API keys stored hashed, and the waitlist e-mail address encrypted, as the Privacy Policy describes,
 - Internal stack traces are not returned to clients. If you spot a leak, report it,
 - What leaves your device and what we keep is listed in the Privacy Policy. In short: calculation inputs are sent to our servers to compute the result and are not stored, apart from Hydronic designs and reports (held in memory for at most 24 hours) and a crash snapshot, and server logs, which include the IP address and the address requested, are deleted after at most 14 days.
 
