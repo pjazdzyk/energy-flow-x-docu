@@ -651,7 +651,7 @@ The public page [energyflowx.com/known-issues](https://energyflowx.com/known-iss
 
 ### Terms and acceptance
 
-The Terms of Use have a version. A new account accepts the current version at registration, and an existing account accepts a new version at its next sign-in after a change. The version and the time of acceptance are stored with the account. An optional declaration that you use EnergyFlowX in your professional activity can be recorded with it. Before the first export, a one-time professional acknowledgement is asked for and stored with the account. When the Terms change in a material way, we aim to tell account holders by e-mail.
+The Terms of Use have a version. A new account accepts the current version at registration, and an existing account accepts a new version at its next sign-in after a change. The version and the time of acceptance are stored with the account. An optional declaration that you use EnergyFlowX in your professional activity can be recorded with it. Before the first export of a computed result, a one-time professional acknowledgement is asked for and stored with the account. When the Terms change in a material way, we aim to tell account holders by e-mail.
 
 ---
 
