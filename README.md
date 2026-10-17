@@ -653,6 +653,10 @@ The public page [energyflowx.com/known-issues](https://energyflowx.com/known-iss
 
 The Terms of Use have a version. A new account accepts the current version at registration, and an existing account accepts a new version at its next sign-in after a change. The version and the time of acceptance are stored with the account. An optional declaration that you use EnergyFlowX in your professional activity can be recorded with it. Before the first export of a computed result, a one-time professional acknowledgement is asked for and stored with the account. When the Terms change in a material way, we aim to tell account holders by e-mail.
 
+### Videos and AI-generated narration
+
+The how-to films and short clips about EnergyFlowX use an AI-generated narration and an AI presenter. The voice was designed by a speech model from a written description and imitates no real person. It is not the author's own voice and not a clone. Every film says so on screen, in the narration and in its description, and everything shown on screen is a recording of the application. The same applies to the Privacy Policy, which lists our channels.
+
 ---
 
 ## 20. LICENSING, CITATION, AND ATTRIBUTION
