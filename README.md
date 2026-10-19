@@ -645,9 +645,9 @@ Every result states which version of the software produced it, so a number can b
 
 The stamp states which version produced a number. It does not make the number right for your case, and you stay responsible for checking it.
 
-### Known issues and result-affecting defects
+### Known issues and corrections
 
-The public page [energyflowx.com/known-issues](https://energyflowx.com/known-issues) lists known issues. A defect that changes a number a user may have relied on is tagged as result-affecting, with the date and the tools it touches. The same tag is used in the changelog of the assistant plugin. The service can also switch one tool off with a message, so that it does not give results while a defect is open. The REST service then answers 503 with that message and the assistant tools answer with a tool error that carries it.
+The public page [energyflowx.com/known-issues](https://energyflowx.com/known-issues) lists serious known defects that are not yet fixed: ones that could make a number you rely on wrong. A defect leaves the page when its fix ships. A fix that changed results users may have relied on is described in [CORRECTIONS.md](CORRECTIONS.md). The service can also switch one tool off with a message, so that it does not give results while a defect is open. The REST service then answers 503 with that message and the assistant tools answer with a tool error that carries it.
 
 ### Terms and acceptance
 
